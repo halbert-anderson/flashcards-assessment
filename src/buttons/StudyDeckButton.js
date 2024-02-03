@@ -2,15 +2,15 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 
-function StudyButton(){
+function StudyDeckButton(){
 const history = useHistory();
 const {deckId} =useParams();
 return(
 
-<button type="button" onClick={() => history.push(`/decks/${deckId}/study`)}>
+<button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deckId}/study`)}>
    Study
 </button>
 );
 }
 
-export default StudyButton;
+export default StudyDeckButton;

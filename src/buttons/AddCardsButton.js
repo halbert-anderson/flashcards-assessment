@@ -1,13 +1,13 @@
 import React from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory,useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 
 function AddCardsButton(){
 const history = useHistory();
-
+const {deckId} =useParams();
 return(
 
-<button type="button" onClick={() => history.push("/decks/:deckId/cards/new).")}>
+<button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deckId}/cards/new`)}>
    Add Cards
 </button>
 )

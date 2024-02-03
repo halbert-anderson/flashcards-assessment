@@ -1,23 +1,23 @@
 import React, {useState} from "react";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {createDeck} from "../utils/api/index";
 
- function CreateDeck(){
+function CreateDeck(){
  
 
+//============================================================================================= 
     //defining the initial state of each form element
     const initialFormState = {
       name: "",
       description: "",
-       };
-    
+    }
+
     // set state of all elements of the form 
-    const [formData, setFormData] = useState({ ...initialFormState });
-   
+    const [formData, setFormData] = useState({ ...initialFormState }); 
     const history = useHistory();
    
-    const {path} = useRouteMatch();
     
+//==============================================================================================
     // TODO: Add the required submit and change handlers
     // define how to handle changes of form elements
     const handleFormChange = ({ target }) => {
@@ -28,54 +28,65 @@ import {createDeck} from "../utils/api/index";
     
           };
     
-    // TODO: When the form is submitted, a new Deck should be created, and the form contents cleared.
-        const handleSubmit = (event) => {
-    
-        // prevent default behavior of button  when clicked 
-        event.preventDefault();
-          
-      const abortCon = new AbortController();
 
-    async function loadDecks() {
-      try {
-        // create a new deck
-         await createDeck(formData);
-          
-        // reset form to initial state
-        setFormData({ ...initialFormState });
-     } catch (err) {throw err}
-    }
-          loadDecks();
-          abortCon.abort();
-         // redirect to Deck Screen
-         history.push("{path}/newDeck.id")
-        };
+
+//==============================================================================================
+// TODO: When the form is submitted, a new Deck should be created, and the form contents cleared.
+
+    const handleSubmit = (event) => {
     
+     // prevent default behavior of button  when clicked 
+     event.preventDefault();
+          
+     const abortCon = new AbortController();
+
+     async function makeDeck() {
+        try {
+             // create a new deck
+             await createDeck(formData);
+          
+             // reset form to initial state
+            setFormData({ ...initialFormState });
+           } 
+           catch (err){
+            throw err
+          }
+        }
+         
+      makeDeck();
+    
+      abortCon.abort();
+
+     // redirect to Deck Screen
+     history.push("/deck/:deckId")
+};
+    
+//=============================================================================================
          const handleCancel = (event) => {
     
-          // prevent default behavior of button  when clicked 
+         // prevent default behavior of button  when clicked 
          event.preventDefault();
                             
          // reset form to initial state
          setFormData({ ...initialFormState });
       
-          // redirect to Home Screen
-           history.push("/"); 
+         // redirect to Home Screen
+         history.push("/"); 
+
          };
 
           
           
-          
-      
-      
+//============================================================================================          
+        
       // TODO: Add the required input and textarea form elements.
-      return (
-      <div> 
+return (
+       <div> 
           
          <nav aria-label="breadcrumb">
               <Link to={'/'}> Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <a> Create Deck </a>
+              <Link to={"#"} > Create Deck </Link>
          </nav>
           
           <form name="create" onSubmit={handleSubmit}>
@@ -83,7 +94,7 @@ import {createDeck} from "../utils/api/index";
               <tbody>
                 <tr>
                   <td> 
-                    <label for="name">Name                       
+                    <label htmlFor="name">Name                       
                     </label>
                     <br/>
                     <input 
@@ -100,7 +111,7 @@ import {createDeck} from "../utils/api/index";
 
                <tr>
                   <td>
-                    <label for="description">Description</label>
+                    <label htmlFor="description">Description</label>
                     <br/>
                     <textarea 
                          id="description" 
@@ -116,11 +127,9 @@ import {createDeck} from "../utils/api/index";
   
                 <tr>  
                     <td>
-                      <button type="button" onClick={handleCancel}>Cancel</button>                     
-                   </td>
-    
-                   <td>                     
-                      <button type="submit" onSubmit=          {handleSubmit}>Submit</button>                      
+                      <button type="button" className="btn btn-secondary " onClick={handleCancel}>Cancel</button>                     
+                                   
+                      <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Submit</button>                      
                   </td>  
                   
                 </tr>
@@ -138,8 +147,9 @@ import {createDeck} from "../utils/api/index";
 
 
  export default CreateDeck;
-/*  
 
+
+/*  
 
 createDeck(formData).then(setDecks).catch(setError);
 //code for breadcrumbs nav bar

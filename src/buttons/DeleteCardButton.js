@@ -19,7 +19,7 @@ const handleDelete = async (cardId) => {
 
 return(
 
-<button type="button" onClick={handleDelete}>
+<button type="button"  className="btn btn-secondary mx-2" onClick={handleDelete}>
    Delete
 </button>
 )
