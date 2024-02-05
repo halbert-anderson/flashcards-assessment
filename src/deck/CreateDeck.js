@@ -40,10 +40,11 @@ function CreateDeck(){
           
      const abortCon = new AbortController();
 
+     let newDeck;
      async function makeDeck() {
         try {
              // create a new deck
-             await createDeck(formData);
+            newDeck = await createDeck(formData);
           
              // reset form to initial state
             setFormData({ ...initialFormState });
@@ -58,7 +59,8 @@ function CreateDeck(){
       abortCon.abort();
 
      // redirect to Deck Screen
-     history.push("/deck/:deckId")
+    // newDeck.then(x => history.push(`/decks/${x.id}`));
+     history.push(`/decks/${newDeck.id}`)
 };
     
 //=============================================================================================

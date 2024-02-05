@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { useParams} from "react-router-dom";
+import { useParams, useHistory} from "react-router-dom";
 import {readDeck} from "../utils/api/index.js"
 import NavbarCards from "../card/NavbarCards";
 import NotEnoughCards from "../card/NotEnoughCards";
@@ -10,77 +10,131 @@ function Study( ){
 
   const [deck, setDeck] = useState({});
   const [cards,setCards]= useState([]);
-  const {deckId} =useParams();
-console.log("Study- deckId:", deckId);
+  const [readFront,setReadFront]=useState(true);
+  const [cardIndex, setCardIndex]=useState(0)
+  const {deckId} = useParams();
+  const history = useHistory();
+//console.log("Study- deckId:", deckId);
 //========================================================================
 useEffect(() => {
-  const abortController = new AbortController();
-  async function loadDeck() {
+    setDeck({});
+    setCards([]);
+    const abortController = new AbortController();
+    async function loadDeck() {  
+       console.log("Study - deckId:", deckId);
     const response = await readDeck(deckId, abortController.signal);
+       console.log("Study - RESPONSE:",response);
+      console.log("Study - response.cards", response.cards);
     setDeck(response);
     setCards(response.cards);
-  }
+    }
 
-  loadDeck();
-  console.log("Study - deck:", deck);
-  console.log("Study - cards:", cards);
-  return () => abortController.abort();
-}, []);
+    loadDeck();
+    return () => abortController.abort();
 
-let readFront =true;
+  }, [deckId]);
+
+
 //console.log("Study - deck:", deck);
 //console.log("Study - cards:", cards);
 
 //===============================================================================================
 const handleFlip =  () => {
-   readFront=false;
-  
+   setReadFront(current => !current);
 };
 
 const handleNext =  () => {
-  readFront=false;
- 
-};
-
-
-
- if (cards.length < 3) {
-    return (
-      <div>
-        <NavbarCards deck={deck} />
-        <h2>{deck.name}: Study</h2>
-        <NotEnoughCards length={cards.length} deckId={deckId} />
-      </div>
-    );
-  }
-    return( 
-      <div>
-        
-         <NavbarCards deck={deck} />
-
-         <h1>Study: {deck.name}</h1>
-
-             {cards.map(card =>{return(
-              <div key={card.id}>{
-                 readFront?(<div><p>card.front</p></div> ):(<div><p>card.back</p>
-                 <button type="button" className="btn btn-secondary mx-2" onClick={handleNext}>
-                  Next
-               </button></div>)}
-              <button type="button" className="btn btn-secondary mx-2" onClick={handleFlip}>
-                  Flip
-               </button>
-              </div>
-             )})}
-
-      </div>);
-   }
+  setReadFront(current => !current);
+  setCardIndex(current => current+1);
   
+ };
 
- export default Study;
+//  const handleRestart = () =>{
+//   const result = window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.");
+//   if (result) {
+//     setCardIndex(0);}
+//   else{
+//     // TODO: If not restarting the cards, send the user to the home page.
+//     history.push("/");    } 
+// }
+
+ 
+const cardsArray=cards.map((card,index) =>{return(
+     <div key={card.id}> 
+       <h2>Card {index+1} of {cards.length}</h2>
+
+         { readFront?(<div><p>{card.front}</p>
+           <button type="button" className="btn btn-secondary mx-2" onClick={handleFlip}>
+              Flip
+          </button></div> ):(<div><p>{card.back}</p>
+
+          <button type="button" className="btn btn-secondary mx-2" onClick={handleFlip}>
+              Flip
+          </button>
+          
+          <button type="button" className="btn btn-primary mx-2" onClick={handleNext}>
+              Next
+          </button></div>)}
+
+    </div>
+         )})
+
+ /*for (cardIndex;cardIndex< cardsArray.length;setCardIndex(current=>current+1)){
+    if(carIndex+1<cardsArray.length){
+    <div>cardsArray[cardIndex]</div>
+     }else{
+     <div>cardsArray[cardIndex]</div>
+     <div>
+     <button type="button" className="btn btn-secondary mx-2" onClick={handleRestart}>
+        restart
+     </button></div>
+}
+*/
+
+ if(deck.id){
+    if (cards.length < 3) {
+      return(
+           <div>
+              <NavbarCards deck={deck} />
+              <h2>{deck.name}: Study</h2>
+              <NotEnoughCards length={cards.length} deckId={deckId} />
+           </div>
+        );
+    }else{
+      return(
+            <div>
+               <NavbarCards deck={deck} />
+                       
+               <h2>{cardIndex+1 < cards.length ? `Study: ${deck.name}` : `${deck.name}: Study`}</h2>
+
+                {(cardIndex<cardsArray.length)?(cardsArray[cardIndex]):
+                 (window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page."))?
+                 (setCardIndex(0)):(history.push("/"))    }
+
+                {/* // <button type="button" className="btn btn-secondary mx-2" onClick={handleRestart}>
+                    //    restart
+                    // </button> 
+                 */}
+
+            </div>
+  
+          )}
+  }
+  else{ 
+  return(<p>Loading...</p>);
+  }
+  
+}
+
+export default Study;
+
+ 
+   
 
 
 
- /*   useEffect(() => {
+
+ /* /*   useEffect(() => {
     
       setDeck({});
       
@@ -138,4 +192,4 @@ if (deck.id) {
  for(let cardNumber=0; cardNumber<deck.cards.length; cardNumber++){
 
 
- }*/
+ }*/ 

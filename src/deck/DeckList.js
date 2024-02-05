@@ -1,27 +1,29 @@
 import React from "react";
-import DeleteDeckButton from "../buttons/DeleteDeckButton";
+//import DeleteDeckButton from "../buttons/DeleteDeckButton";
 //import ViewDeckButton from "../buttons/ViewDeckButton";
 //import StudyDeckButton from "../buttons/StudyDeckButton";
-import { useHistory} from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory} from "react-router-dom";
 import {deleteDeck} from "../utils/api/index";
 
 function DeckList({ decks }) {
 
-
 //===========================================================================================
+//====using use hooks========================================================================
 const history =useHistory();
 //const navigate= useNavigate();
-//=========================================================================================
-const handleDelete = async (deckId) =>  {
+
+//===========================================================================================
+//=====click handler for delete button to delete a deck======================================
+const handleDelete = async (id) =>  {
     
   const result = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
   if (result) {
-    await deleteDeck(deckId);
+    await deleteDeck(id);
     // TODO: After the deck is deleted, send the user to the home page.
     history.push("/");     
   }
-  
 };
+
 //============================================================================================
 console.log("DeckList - decks:", decks);
 
@@ -30,6 +32,7 @@ console.log("DeckList - decks:", decks);
       {decks.map((deck) => (
         <div className="card" key={deck.id}>
           <div className="card-body">
+
             <div className="d-flex justify-content-between">
               <div className="flex-item">
                 <h2 className="card-title">{deck.name}</h2>
@@ -41,26 +44,32 @@ console.log("DeckList - decks:", decks);
                 </p>
               </div>
             </div>
+
             <p className="card-text">{deck.description}</p>
+ 
             <div className="d-flex justify-content-between">
               <div className="flex-item">
                
-              <button type="button" className="btn btn-secondary mx-2" onClick={() => history.push(`/decks/${deck.id}`)}>
-                     View
-              </button>
+                 <button type="button" className="btn btn-secondary mx-2" onClick={() => history.push(`/decks/${deck.id}`)}>
+                    View
+                 </button>
 
-              {/* TODO: study button doesn't render as expected */}
-              <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
-                Study
-              </button>
+                 {/* TODO: study button doesn't render as expected */}
+                 <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
+                    Study
+                 </button>
                 
               </div>
-              <div className="flex-item">
-               {/* <DeleteDeckButton deckId= {deck.id}/> */}
-              <button type="button" className="btn btn-danger btn-xs mx-2" onClick={() => handleDelete(deck.id)}>
-                     <i className="fa-solid fa-trash-can"></i>Delete
-              </button>
+
+              <div className="flex-item"> 
+
+                 <button type="button" className="btn btn-danger mx-2" onClick={handleDelete(deck.id)}>
+                    <i className="fa-solid fa-trash-can"></i>
+                    Delete
+                 </button>
+
               </div>
+
             </div>
           </div>
         </div>
@@ -73,6 +82,8 @@ export default DeckList;
 /*
 // <ViewDeckButton deckId={deckId} />
 //<StudyDeckButton />
+// <DeleteDeckButton deckId= {deck.id}/> 
+
 async function handleDelete(id) {
     const abortCon = new AbortController();
     try {
@@ -86,14 +97,6 @@ async function handleDelete(id) {
     } catch (err) {throw err}
     return () => abortCon.abort();
   }
-
-<button
-                  className="btn btn-danger"
-                  type="button"
-                  onClick={() => handleDelete(deck.id)}
-                >
-                  <i className="fa-solid fa-trash-can"></i>
-                </button>
 
   */
   

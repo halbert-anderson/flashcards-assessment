@@ -15,8 +15,8 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
      // set state of all elements of the form 
      const [formData, setFormData] = useState({ ...initialFormState });
      const history = useHistory();
-     const {deckId,cardId} = useParams();
-
+     const { deckId, cardId } = useParams();
+    
      // load the card to be edited
      const [deck, setDeck] = useState({});
      const [card, setCard] = useState({});
@@ -25,13 +25,14 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
 //=====================================================================
    
        useEffect(() => {
+         setDeck({});
          const abortCon = new AbortController();
      
          async function loadDeck() {
            try {
              const loadedDeck =  await readDeck(deckId);
              setDeck(loadedDeck);
-           } catch (err) {throw err}
+            } catch (err) {throw err}
          }
          loadDeck();
          return abortCon.abort();
@@ -39,11 +40,13 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
      
 
        useEffect(() => {
+        setCard({});
         const abortController = new AbortController();
         async function loadCard() {
-          try{const response = await readCard(cardId, abortController.signal);
-          setCard(response);
-      }catch (err) {throw err}
+          try{
+            const response = await readCard(cardId, abortController.signal);
+            setCard(response);
+           }catch (err) {throw err}
     }
         loadCard();
         return () => abortController.abort();
@@ -66,9 +69,9 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
     // TODO: When the form is submitted, a Deck should be update, and the form contents cleared.
     const handleSubmit = (event) => {
     
-       // prevent default behavior of button  when clicked 
-       event.preventDefault();
-          
+       // prevent default behavior of button when clicked 
+       event.preventDefault(); 
+
        const abortCon = new AbortController();
   
        async function editCard() {
@@ -80,19 +83,20 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
               setFormData({ ...initialFormState });
           } 
           catch (err) {
-            throw err}
+            throw err;
+          }
         }
 
-          editCard();
+        editCard();
 
-          abortCon.abort();
+        abortCon.abort();
 
-         // redirect to Deck Screen
-         history.push(`/deck/${deckId}`);
+        // redirect to Deck Screen
+        history.push(`/decks/${deckId}`);
   };
                
     
-      const handleDone = (event) => {
+      const handleCancel = (event) => {
          
               // prevent default behavior of button  when clicked 
               event.preventDefault();
@@ -101,7 +105,7 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
               setFormData({ ...initialFormState });
            
               // redirect to Deck Screen
-              history.push(`/deck/${deckId}`);
+              history.push(`/decks/${deckId}`);
      
               };
           
@@ -115,7 +119,7 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
          <nav aria-label="breadcrumb">
               <Link to={'/'}> Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to={'/decks/:deckId'}> {deck.name} </Link>
+              <Link to={`/decks/${deckId}`}> {deck.name} </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
               <Link to="#"> Edit Card {card.id}</Link>
          </nav>
@@ -160,11 +164,9 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
    
                  <tr>  
                      <td>
-                       <button type="button" className="btn btn-secondary mx-2" onClick={handleDone}>Done</button>                     
-                    </td>
-     
-                    <td>                     
-                       <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Save</button>                      
+                       <button type="button" className="btn btn-secondary " onClick={handleCancel}>Cancel</button>                     
+                                       
+                       <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Submit</button>                      
                    </td>  
                    
                  </tr>

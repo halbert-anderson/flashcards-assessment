@@ -24,6 +24,7 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
 //=====================================================================
     
        useEffect(() => {
+         setDeck({});
          const abortCon = new AbortController();
      
          async function loadDeck() {
@@ -55,7 +56,7 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
     // TODO: When the form is submitted, a Deck should be update, and the form contents cleared.
     const handleSubmit = (event) => {
     
-       // prevent default behavior of button  when clicked 
+       // prevent default behavior of button when clicked 
        event.preventDefault();
           
        const abortCon = new AbortController();
@@ -69,7 +70,8 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
               setFormData({ ...initialFormState });
           } 
           catch (err) {
-              throw err}
+              throw err
+            }
         }
 
         editDeck();
@@ -89,8 +91,8 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
        // reset form to initial state
        setFormData({ ...initialFormState });
       
-       // redirect to Home Screen
-       history.push("/"); 
+       // redirect to the Deck Screen
+       history.push(`/decks/${deckId}`); 
     
     };
 
@@ -101,9 +103,10 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
          <nav aria-label="breadcrumb">
               <Link to={'/'}> Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to={'/decks/:deckId'}> {deck.name} </Link>
+              <Link to={`/decks/${deckId}`}> {deck.name} </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to="#"> Edit Deck </Link>
+              {/* <Link to="#"> Edit Deck </Link> */}
+              <p> Edit Deck </p>
          </nav>
          <h2>Edit Deck</h2>
          <form name="update" onSubmit={handleSubmit}>
@@ -145,7 +148,7 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
   
                 <tr>  
                     <td>
-                      <button type="button" className="btn btn-secondary " onClick={handleCancel}>Cancel</button>                     
+                      <button type="button" className="btn btn-secondary mx-2" onClick={handleCancel}>Cancel</button>                     
                                       
                       <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Submit</button>                      
                     </td>  

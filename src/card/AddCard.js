@@ -103,7 +103,7 @@ import {createCard, readDeck} from "../utils/api/index";
            <nav aria-label="breadcrumb">
                <Link to={'/'}> Home </Link>
                   <span className="breadcrumb-arrow">&#47;</span>
-               <Link to={`/decks/${deck.id} `}> {deck.name} </Link>
+               <Link to={`/decks/${deck.id}`}> {deck.name} </Link>
                    <span className="breadcrumb-arrow">&#47;</span>
                <Link to={"#"}> Add Card </Link>
            </nav>

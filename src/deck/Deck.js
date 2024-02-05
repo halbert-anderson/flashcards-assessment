@@ -1,43 +1,48 @@
 import React, {useState, useEffect} from "react";
-import {Link, useHistory,/*useRouteMatch,*/ useParams} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import {readDeck,deleteDeck} from "../utils/api/index.js"
-// import Study from "./Study";
-// import EditDeck from "./EditDeck";
-// import Cards from "../card/Cards"
- import CardList from "../card/CardList.js";
-// import NotFound from "../Layout/NotFound.js";
+import CardList from "../card/CardList.js";
 
- function Deck(){
+
+ function Deck() {
 
  //===================================================================== 
- //set state and using hooks       
+ //===setting state and using hooks===========================       
       const [deck, setDeck] = useState({});
-      const [cards,setCards] =useState([]);
-      const {deckId} = useParams(); 
+      const [cards, setCards] = useState([]);
+      const { deckId } = useParams(); 
       const history = useHistory();
-  //  const {path}= useRouteMatch();
-
- //=================================================================================
- useEffect(() => {
-   const abortController = new AbortController();
-   async function loadDeck() {  
-      console.log("Deck - deckId:", deckId);
-     const response = await readDeck(deckId, abortController.signal);
-
-     console.log("Deck - RESPONSE:",response)
-     setDeck(response);
-  //   console.log("DdeCKk",deck)
-     setCards(response.cards);
-   }
-   
-   loadDeck();
-  // console.log("DECK",deck)
-   return () => abortController.abort();
- }, [deckId]);
  
- console.log("Deck - deck:",deck)
+//==useEffect hook to set state for deck object and cards array=========
+
+useEffect(() => {
+   setDeck({});
+   setCards([]);
+   const abortController = new AbortController();
+   async function loadDeckAndCards() {   
+      try{            
+         //console.log("Deck - deckId:", deckId);
+         const response = await readDeck(deckId, abortController.signal);
+         //console.log("Deck - RESPONSE:",response);
+         setDeck(response);
+         setCards(response.cards);
+      } 
+      catch (err) {
+         throw err
+      }
+   }
+
+   loadDeckAndCards();
+   return () => abortController.abort();
+ 
+}, [deckId]);
+ 
+ console.log("Deck - deck:", deck);
+
 //==========================================================================================
-const handleDelete = async (deckId) => {
+//=========click handler for delete button===================
+
+const handleDeckDelete = async () => {
     
    const result = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
    if (result) {
@@ -47,11 +52,12 @@ const handleDelete = async (deckId) => {
    }
    
  };
-//==========================================================================================
-    console.log("Deck - deck.cards:",deck.cards);
-    
-    console.log("Deck - cards:", cards);
 
+//==========================================================================================
+
+    console.log("Deck - deck.cards:", deck.cards);   
+    console.log("Deck - cards:", cards);
+if (deck.id){
      return( 
       <div>
         
@@ -61,11 +67,12 @@ const handleDelete = async (deckId) => {
                   
                      <span className="breadcrumb-arrow">&#47;</span>
                   
-                  <Link to={"#"}> {deck.name} </Link>
+                     <p> {deck.name} </p>
+               
+                  {/* <Link to={"#"}> {deck.name} </Link> */}
                
             </nav>
           
-            
             <div className="card" key={deck.id}>
              <div className="card-body">
                 <div> 
@@ -75,38 +82,41 @@ const handleDelete = async (deckId) => {
                 <div>
                    <p>{deck.description}</p>
                 </div>
+
                 <div className="d-flex justify-content-between">
                   <div className="flex-item">
 
                      <button type="button" className="btn btn-secondary mx-2"  onClick={() => history.push(`/decks/${deck.id}/edit`)}>
-                        Edit
+                         Edit
                      </button>
 
                      <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
-                          Study
+                         Study
                      </button>
 
                      <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/cards/new`)}>
-                           Add Cards
+                         Add Cards
                      </button>
                   </div>
 
                   <div className="flex-item">
-                     <button type="button" className="btn  btn-danger mx-2 fa-solid fa-trash-can" onClick={handleDelete(deck.id)}>
-                      <i className="fa-solid fa-trash-can"></i>Delete
+
+                     <button type="button" className="btn btn-danger mx-2" onClick={handleDeckDelete}>
+                         <i className="fa-solid fa-trash-can"></i>Delete
                      </button>
+
                   </div>
                 </div>
-              </div> 
+             </div> 
            </div>
             <h2>Cards</h2>
-            {cards}
-           <CardList cards={cards} />    
+            {/* <div>{cards}</div> */}
+            <CardList cards={cards} />    
            
       </div> 
       
     );
-    
+     } return(<p>loading....</p>);
   }
   
  

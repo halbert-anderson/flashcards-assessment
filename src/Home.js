@@ -13,7 +13,7 @@ export default function Home() {
   const [decks, setDecks] = useState([]);
 
   useEffect(() => {
-
+    setDecks([]);
     const abortCon = new AbortController();
     async function loadDecks() {
       try {
