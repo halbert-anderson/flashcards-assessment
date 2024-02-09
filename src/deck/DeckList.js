@@ -1,31 +1,34 @@
 import React from "react";
-//import DeleteDeckButton from "../buttons/DeleteDeckButton";
-//import ViewDeckButton from "../buttons/ViewDeckButton";
-//import StudyDeckButton from "../buttons/StudyDeckButton";
 import { useHistory} from "react-router-dom";
-import {deleteDeck} from "../utils/api/index";
+import {deleteDeck, listDecks} from "../utils/api/index";
 
-function DeckList({ decks }) {
+function DeckList({ decks ,setDecks }) {
 
 //===========================================================================================
 //====using use hooks========================================================================
 const history =useHistory();
-//const navigate= useNavigate();
 
 //===========================================================================================
 //=====click handler for delete button to delete a deck======================================
-const handleDelete = async (id) =>  {
-    
-  const result = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
-  if (result) {
-    await deleteDeck(id);
+  const handleDelete = async (event,id) =>  {
+     event.preventDefault();
+     console.log("id:",id);
+     
+     const result  = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
+        if (result) {
+                   await deleteDeck(id);
+                   const loadedDecks =  await listDecks();
+                   setDecks(loadedDecks);
+                   
     // TODO: After the deck is deleted, send the user to the home page.
-    history.push("/");     
-  }
-};
+                   history.push("/"); 
+                   window.location.reload();    
+             }
+    };
 
 //============================================================================================
 console.log("DeckList - decks:", decks);
+
 
   return (
     <div>
@@ -63,7 +66,7 @@ console.log("DeckList - decks:", decks);
 
               <div className="flex-item"> 
 
-                 <button type="button" className="btn btn-danger mx-2" onClick={handleDelete(deck.id)}>
+                 <button type="button" className="btn btn-danger mx-2" onClick={(e)=>handleDelete(e,deck.id)}>
                     <i className="fa-solid fa-trash-can"></i>
                     Delete
                  </button>
@@ -77,7 +80,7 @@ console.log("DeckList - decks:", decks);
     </div>
   );
 }
-
+ 
 export default DeckList;
 /*
 // <ViewDeckButton deckId={deckId} />

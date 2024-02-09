@@ -70,6 +70,7 @@ async function fetchJson(url, options, onCancel) {
  *  a promise that resolves to a possibly empty array of decks saved in the database.
  */
 export async function listDecks(signal) {
+  console.log("API - listDecks(signal):", signal);
   const url = `${API_BASE_URL}/decks?_embed=cards`;
   return await fetchJson(url, { signal }, []);
 }
@@ -141,6 +142,7 @@ export async function updateDeck(updatedDeck, signal) {
  *  a promise that resolves to an empty object.
  */
 export async function deleteDeck(deckId, signal) {
+  console.log("api/deleteDeck - deckId:", deckId);
   const url = `${API_BASE_URL}/decks/${deckId}`;
   const options = { method: "DELETE", signal };
   return await fetchJson(url, options);

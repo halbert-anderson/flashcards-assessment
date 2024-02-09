@@ -13,21 +13,22 @@ export default function Home() {
   const [decks, setDecks] = useState([]);
 
   useEffect(() => {
-    setDecks([]);
-    const abortCon = new AbortController();
+   setDecks([]);
+    const abortController = new AbortController();
     async function loadDecks() {
       try {
-        const loadedDecks =  await listDecks();
+        const loadedDecks =  await listDecks(abortController.signal);
         console.log("Home - loadedDecks:", loadedDecks)
         setDecks(loadedDecks);
       } catch (err) {throw err}
-     }
-
+    }
+  
      loadDecks();
-    return abortCon.abort();
-    }, []);
+    return abortController.abort();
+    },[]);
 
   console.log("Home - decks:", decks)
+  if(decks.length){
   return (
      <div className="d-flex flex-column">
         <div className="mb-2">
@@ -35,10 +36,12 @@ export default function Home() {
         </div>
 
         <div>
-          <DeckList decks={decks} />
+          <DeckList decks={decks} setDecks={setDecks} />
         </div>
     </div>
   );
+  }
+  return <p>Loading...</p> ;
 }
 
 /*

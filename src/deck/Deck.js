@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {Link, useHistory, useParams} from "react-router-dom";
-import {readDeck,deleteDeck} from "../utils/api/index.js"
+import {readDeck,deleteDeck, listDecks} from "../utils/api/index.js"
 import CardList from "../card/CardList.js";
+import DeckList from "./DeckList.js";
 
 
  function Deck() {
@@ -10,51 +11,62 @@ import CardList from "../card/CardList.js";
  //===setting state and using hooks===========================       
       const [deck, setDeck] = useState({});
       const [cards, setCards] = useState([]);
+      const [decks, setDecks] = useState([]);
       const { deckId } = useParams(); 
       const history = useHistory();
  
 //==useEffect hook to set state for deck object and cards array=========
-
+console.log("Deck -anything");
 useEffect(() => {
+console.log("Deck -anything2");
    setDeck({});
-   setCards([]);
+   // setCards([]);
    const abortController = new AbortController();
    async function loadDeckAndCards() {   
       try{            
-         //console.log("Deck - deckId:", deckId);
+         console.log("Deck - deckId:", deckId);
          const response = await readDeck(deckId, abortController.signal);
-         //console.log("Deck - RESPONSE:",response);
+         console.log("Deck - RESPONSE:",response);
+         console.log("Deck - RESPONSE.cards:",response.cards);
          setDeck(response);
          setCards(response.cards);
       } 
       catch (err) {
-         throw err
+         throw err;
       }
    }
 
    loadDeckAndCards();
    return () => abortController.abort();
  
-}, [deckId]);
+},[deckId]);
  
- console.log("Deck - deck:", deck);
+
 
 //==========================================================================================
 //=========click handler for delete button===================
 
-const handleDeckDelete = async () => {
+const handleDeckDelete = async (event) => {
     
+   // prevent default behavior of button  when clicked 
+   event.preventDefault();
+
    const result = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
    if (result) {
+
      await deleteDeck(deckId);
+
      // TODO: After the deck is deleted, send the user to the home page.
+     const loadedDecks =  await listDecks(deckId);
+     setDecks(loadedDecks);
+     DeckList({decks})
      history.push("/");     
    }
    
  };
 
 //==========================================================================================
-
+    console.log("Deck - deck:", deck);
     console.log("Deck - deck.cards:", deck.cards);   
     console.log("Deck - cards:", cards);
 if (deck.id){
@@ -66,10 +78,8 @@ if (deck.id){
                   <Link to={'/'}> Home </Link>
                   
                      <span className="breadcrumb-arrow">&#47;</span>
-                  
-                     <p> {deck.name} </p>
                
-                  {/* <Link to={"#"}> {deck.name} </Link> */}
+                  <Link to={"#"}> {deck.name} </Link>
                
             </nav>
           
@@ -86,11 +96,11 @@ if (deck.id){
                 <div className="d-flex justify-content-between">
                   <div className="flex-item">
 
-                     <button type="button" className="btn btn-secondary mx-2"  onClick={() => history.push(`/decks/${deck.id}/edit`)}>
+                     <button type="button" className="btn btn-secondary mx-2"  onClick={history.push(`/decks/${deck.id}/edit`)}>
                          Edit
                      </button>
 
-                     <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
+                     <button type="button" className="btn btn-primary mx-2" onClick={history.push(`/decks/${deck.id}/study`)}>
                          Study
                      </button>
 
@@ -111,104 +121,30 @@ if (deck.id){
            </div>
             <h2>Cards</h2>
             {/* <div>{cards}</div> */}
-            <CardList cards={cards} />    
+            <CardList cards={cards} setCards={setCards} />    
            
       </div> 
       
-    );
-     } return(<p>loading....</p>);
+   );
+
+     }
+      return(<p>Loading...</p>);
   }
   
  
 
  export default Deck;
-/*
- <Switch>
-            
-             <Route exact path="/decks/:deckId/study">
-               <Study />
-            </Route> 
-              
-             <Route path="/decks/:deckId/edit">
-               <EditDeck />
-            </Route> 
-          
-             <Route path="/decks/:deckId/cards">
-                 <Cards  />
-            </Route> 
-           
-            <Route>
-                    <NotFound />
-              </Route>
-    
-        </Switch>
 
-*/
+
 
 
  /*
- useEffect(() => {
-     
-       setDeck({});
-       
-       const abortController = new AbortController();
-       
-       async function loadDeck(){
-       
-           try{
-              const newDeck = await readDeck(deckId,abortController.signal);
-  
-              //const newDeck = await response;//.json();
-              //console.log("Deck - newDeck:",newDeck);
-              console.log("Deck - newDeck:",newDeck);
-              setDeck(newDeck);
-               } 
-           catch (error) {
-              if (error.name !== "AbortError") {
-                console.error(error);
-               }
-             }     
-        }
- 
-        loadDeck();
- 
-        return () => {
-            abortController.abort(); // cancels any pending request or response
-         };
- 
-      }, [deckId]);
- */
 
-/*
-<article className="col-12 col-md-6 col-xl-3 my-2 align-self-stretch">
- </article>
-
- <Route exact path="/decks/:deckId/study">
- <Study />
-</Route>
-*/
-/*if (deck.id) {
-     return( <div>
- 
-              <h1>{deck.name}</h1>
-              <p>{deck.description}</p>
-
-              
-              <Switch>
-                
-                <Route path=`${path}/study`>
-                     <Study />
-                </Route>
-                <Route path=`${path}/edit`>
-                   <EditDeck />
-                </Route>
-                <Route path=`${path}/cards`>
-                  <Cards />
-                </Route>
-              </Switch>
-            </div>);
-    }
-   return "Loading...";
+Asynchronous tasks are callbacks sent to the queue of callbacks of the event loop. They are asynchronous because they won't be executed until some conditions are met.
+Any mechanism that can add a callback to the queue of callbacks, thereby deferring its execution until the fulfillment of a condition, can be considered as a subscription:
+1.Promises when fulfilled or rejected
+2.setTimeout and setInterval when a certain time has elapsed
+3Events when the event occurs
 */
 /* <p>{deck.cards.length}</p>;*/
   /* {Object.entries(deck).map(([key, value]) => (

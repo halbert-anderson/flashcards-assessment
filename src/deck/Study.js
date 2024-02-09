@@ -11,7 +11,7 @@ function Study( ){
   const [deck, setDeck] = useState({});
   const [cards,setCards]= useState([]);
   const [readFront,setReadFront]=useState(true);
-  const [cardIndex, setCardIndex]=useState(0)
+  const [cardIndex, setCardIndex]=useState(0);
   const {deckId} = useParams();
   const history = useHistory();
 //console.log("Study- deckId:", deckId);
@@ -39,16 +39,25 @@ useEffect(() => {
 //console.log("Study - cards:", cards);
 
 //===============================================================================================
-const handleFlip =  () => {
+const handleFlip =  (event) => {
+    // prevent default behavior of button  when clicked 
+    event.preventDefault();
    setReadFront(current => !current);
 };
 
-const handleNext =  () => {
+const handleNext =  (event) => {
+    // prevent default behavior of button  when clicked 
+    event.preventDefault();
+
   setReadFront(current => !current);
   setCardIndex(current => current+1);
   
- };
-
+  if(cardIndex+1===cardsArray.length){
+   //const response = window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.");
+        if(window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.")){ setCardIndex(0)}
+        else{ history.push("/")}  
+ }
+}
 //  const handleRestart = () =>{
 //   const result = window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.");
 //   if (result) {
@@ -91,7 +100,7 @@ const cardsArray=cards.map((card,index) =>{return(
 }
 */
 
- if(deck.id){
+//  if(deck.id){
     if (cards.length < 3) {
       return(
            <div>
@@ -107,9 +116,10 @@ const cardsArray=cards.map((card,index) =>{return(
                        
                <h2>{cardIndex+1 < cards.length ? `Study: ${deck.name}` : `${deck.name}: Study`}</h2>
 
-                {(cardIndex<cardsArray.length)?(cardsArray[cardIndex]):
+                {cardsArray[cardIndex]}
+                {/* {(cardIndex<cardsArray.length)?(cardsArray[cardIndex]):
                  (window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page."))?
-                 (setCardIndex(0)):(history.push("/"))    }
+                 (setCardIndex(0)):(history.push("/"))    } */}
 
                 {/* // <button type="button" className="btn btn-secondary mx-2" onClick={handleRestart}>
                     //    restart
@@ -120,11 +130,11 @@ const cardsArray=cards.map((card,index) =>{return(
   
           )}
   }
-  else{ 
-  return(<p>Loading...</p>);
-  }
+  // else{ 
+  // // return(<p>Loading...</p>);
+  // }
   
-}
+// }
 
 export default Study;
 

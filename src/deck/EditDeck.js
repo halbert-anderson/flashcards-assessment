@@ -5,37 +5,50 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
 
 
  function EditDeck( ){
+   
+   // defining the initial state of each form element
+   const initialFormState = {
+    name: "",
+    description: "",
+     };
 
-    // defining the initial state of each form element
-    const initialFormState = {
-      name: "",
-      description: "",
-       };
+
+    // load the deck to be edited
+    const [deck, setDeck] = useState({});
+    const {deckId} = useParams();
+  
 
     // set state of all elements of the form 
     const [formData, setFormData] = useState({ ...initialFormState });
     const history = useHistory();
-    
 
-     // load the deck to be edited
-     const [deck, setDeck] = useState({});
-     const {deckId} = useParams();
+   
 
 //=====================================================================
     
        useEffect(() => {
+
          setDeck({});
+        
          const abortCon = new AbortController();
      
          async function loadDeck() {
            try {
-             const loadedDeck =  await readDeck(deckId);
-             console.log("EditDeck - loadedDeck:", loadedDeck);
+             //console.log("EditDeck - deckId:", deckId);
+             const loadedDeck =  await readDeck(deckId, abortCon.signal);
+             //console.log("EditDeck - loadedDeck:", loadedDeck);
              setDeck(loadedDeck);
-           } catch (err) {throw err}
+             setFormData(loadedDeck);
+           } 
+           catch (err){
+            throw err
+           }
          }
+
          loadDeck();
+
          return abortCon.abort();
+
        }, [deckId]);
      
 
@@ -54,32 +67,30 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
     
 
     // TODO: When the form is submitted, a Deck should be update, and the form contents cleared.
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event,id) => {
     
        // prevent default behavior of button when clicked 
        event.preventDefault();
           
        const abortCon = new AbortController();
   
-       async function editDeck() {
           try {
               // update a new deck
-              await updateDeck(formData);
-          
+              console.log("EditDeck -  {formData,  id}:",{...formData, "id":{id}} );
+              const updatedDeck = await updateDeck({...formData, "id":{id}},abortCon.signal);
+              setDeck(updatedDeck);
               // reset form to initial state
-              setFormData({ ...initialFormState });
+             setFormData({ ...updatedDeck });
           } 
           catch (err) {
               throw err
             }
-        }
-
-        editDeck();
-
+  
         abortCon.abort();
 
         // redirect to Deck Screen
-        history.push(`decks/${deckId}`)
+        history.push(`/decks/${deckId}`)
+        //window.location.reload();
     };
         
 
@@ -93,10 +104,10 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
       
        // redirect to the Deck Screen
        history.push(`/decks/${deckId}`); 
-    
+       window.location.reload();
     };
 
-             
+  if(deck.id){           
   // TODO: Add the required input and textarea form elements.
   return (
       <div>         
@@ -105,8 +116,8 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
                  <span className="breadcrumb-arrow">&#47;</span>
               <Link to={`/decks/${deckId}`}> {deck.name} </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              {/* <Link to="#"> Edit Deck </Link> */}
-              <p> Edit Deck </p>
+              <Link to="#"> Edit Deck </Link> 
+              
          </nav>
          <h2>Edit Deck</h2>
          <form name="update" onSubmit={handleSubmit}>
@@ -148,9 +159,9 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
   
                 <tr>  
                     <td>
-                      <button type="button" className="btn btn-secondary mx-2" onClick={handleCancel}>Cancel</button>                     
+                      <button type="button" className="btn btn-secondary" onClick={()=>handleCancel}>Cancel</button>                     
                                       
-                      <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Submit</button>                      
+                      <button type="submit" className="btn btn-primary mx-2" onSubmit={()=>handleSubmit(deck.id)}>Submit</button>                      
                     </td>  
                 </tr>              
             </tbody>              
@@ -158,12 +169,8 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
         </form>          
        </div> 
       );
-    }
+  }
 
-
-
-
-   
-   
-
+  return <p>Loading...</p>;
+}
  export default EditDeck;

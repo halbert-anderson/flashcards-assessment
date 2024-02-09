@@ -33,34 +33,34 @@ function CreateDeck(){
 //==============================================================================================
 // TODO: When the form is submitted, a new Deck should be created, and the form contents cleared.
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
     
      // prevent default behavior of button  when clicked 
      event.preventDefault();
           
      const abortCon = new AbortController();
 
-     let newDeck;
-     async function makeDeck() {
         try {
-             // create a new deck
-            newDeck = await createDeck(formData);
+             //create a new deck
+        let newDeck = await createDeck(formData, abortCon.signal);
           
              // reset form to initial state
-            setFormData({ ...initialFormState });
+              setFormData({ ...newDeck });
+
+            // redirect to Deck Screen
+            // newDeck.then(x => history.push(`/decks/${x.id}`));
+             history.push(`/decks/${newDeck.id}`)
            } 
            catch (err){
             throw err
           }
-        }
-         
-      makeDeck();
+      
     
       abortCon.abort();
 
      // redirect to Deck Screen
     // newDeck.then(x => history.push(`/decks/${x.id}`));
-     history.push(`/decks/${newDeck.id}`)
+    // history.push(`/decks/${newDeck.id}`)
 };
     
 //=============================================================================================
@@ -70,7 +70,7 @@ function CreateDeck(){
          event.preventDefault();
                             
          // reset form to initial state
-         setFormData({ ...initialFormState });
+        // setFormData({ ...initialFormState });
       
          // redirect to Home Screen
          history.push("/"); 
@@ -120,7 +120,7 @@ return (
                          name="description" 
                          required={true} 
                          rows={1} 
-                         placeholder="Breif description of the deck" 
+                         placeholder="Brief description of the deck" 
                          onChange={handleFormChange} 
                          value={formData.description} 
                        />                      

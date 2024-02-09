@@ -6,6 +6,11 @@
       "description": "React's component structure allows for quickly building a complex web application that relies on DOM manipulation. "
     },
     {
+      "name": "React Router",
+      "description": "React Router is a collection of navigational components that compose declaratively with your application.",
+      "id": "2"
+    },
+    {
       "id": "d131",
       "name": "dasa",
       "description": "dsa"
@@ -19,11 +24,6 @@
       "id": "d85f",
       "name": "sdfadf",
       "description": "afsafa"
-    },
-    {
-      "id": "58ef",
-      "name": "hkgjkhhj",
-      "description": "glkhglghl"
     },
     {
       "id": "e0e9",
@@ -41,11 +41,6 @@
       "description": "4th"
     },
     {
-      "id": "2382",
-      "name": "Evan 6",
-      "description": "sixth"
-    },
-    {
       "id": "1635",
       "name": "Evan 7",
       "description": "Seventh"
@@ -54,11 +49,6 @@
       "id": "9b89",
       "name": "7",
       "description": "7"
-    },
-    {
-      "id": "abfd",
-      "name": "6",
-      "description": "6"
     },
     {
       "id": "5d1f",
@@ -74,6 +64,11 @@
       "id": "9a52",
       "name": "Hal 2001",
       "description": "new deck"
+    },
+    {
+      "id": "52a8",
+      "name": "new deck 100",
+      "description": "one hundred"
     }
   ],
   "cards": [
@@ -98,17 +93,16 @@
     {
       "front": "What path will match the follow Route?\n<Route>\n  <NotFound />\n</Route>",
       "back": "All paths. A route with no path matches all URL's",
-      "deckId": 2,
+      "deckId": "2",
       "id": "4"
     },
     {
       "front": "What does <Switch> do?",
       "back": "Renders the first matching child <Route> ",
-      "deckId": 2,
+      "deckId": "2",
       "id": "5"
     },
     {
-      "cards": [],
       "front": "b",
       "back": "b",
       "deckId": "1",
@@ -118,49 +112,49 @@
       "id": "6ac5",
       "front": "dsdsd",
       "back": "dfdsds",
-      "deckId": null
+      "deckId": "d131"
     },
     {
       "id": "a377",
       "front": "ffsdfsdfds",
       "back": "fsdfdsfsdfds",
-      "deckId": null
+      "deckId": "d131"
     },
     {
       "id": "b9a4",
       "front": "afadfadsf",
       "back": "afadsfaf",
-      "deckId": null
+      "deckId": "d131"
     },
     {
       "id": "91f3",
       "front": "fasdfd",
       "back": "dafsaf",
-      "deckId": null
+      "deckId": "d131"
     },
     {
       "id": "cc75",
       "front": "dfadsfsa",
       "back": "asdfdsfa",
-      "deckId": null
+      "deckId": "d131"
     },
     {
       "id": "8227",
       "front": "dsaffa",
       "back": "dfasa",
-      "deckId": null
+      "deckId": "59fe"
     },
     {
       "id": "6d18",
       "front": "dADd",
       "back": "sdFfa",
-      "deckId": null
+      "deckId": "59fe"
     },
     {
       "id": "da6e",
       "front": "dsdssf",
       "back": "sdfsfdf",
-      "deckId": null
+      "deckId": "59fe"
     },
     {
       "id": "8a7c",
@@ -172,31 +166,31 @@
       "id": "708c",
       "front": "werrwe",
       "back": "dsafasdfsa",
-      "deckId": "58ef"
+      "deckId": "d85f"
     },
     {
       "id": "b966",
       "front": "dafdsfa",
       "back": "dasfasd",
-      "deckId": "58ef"
+      "deckId": "d85f"
     },
     {
       "id": "4e14",
       "front": "sdfadfaf",
       "back": "bfsann",
-      "deckId": "58ef"
+      "deckId": "d85f"
     },
     {
       "id": "efde",
       "front": "fsaaffafs",
       "back": "erwqrwrqw",
-      "deckId": "58ef"
+      "deckId": "d85f"
     },
     {
       "id": "9b12",
       "front": "sadfsafsafa",
       "back": "adafsdfasd",
-      "deckId": "58ef"
+      "deckId": "d85f"
     },
     {
       "id": "8732",
@@ -214,19 +208,97 @@
       "id": "da0b",
       "front": "99",
       "back": "99",
-      "deckId": null
+      "deckId": "e0e9"
     },
     {
       "id": "c061",
       "front": "88",
       "back": "88",
-      "deckId": null
+      "deckId": "e0e9"
     },
     {
       "id": "2be0",
       "front": "77",
       "back": "77",
-      "deckId": null
+      "deckId": "e0e9"
+    },
+    {
+      "id": "6458",
+      "front": "card 7.2?",
+      "back": "7.2!",
+      "deckId": "1635"
+    },
+    {
+      "id": "f4ed",
+      "front": "card 7.3?",
+      "back": "card 7.3!",
+      "deckId": "1635"
+    },
+    {
+      "id": "1643",
+      "front": "card 7.4?",
+      "back": "card 7.4!",
+      "deckId": "1635"
+    },
+    {
+      "id": "0f37",
+      "front": "card 1",
+      "back": "back card 1",
+      "deckId": "9a52"
+    },
+    {
+      "id": "c75e",
+      "front": "card2",
+      "back": "back card 2",
+      "deckId":"9a52"
+    },
+    {
+      "id": "be78",
+      "front": "card 3",
+      "back": "backd3",
+      "deckId": "9a52"
+    },
+    {
+      "id": "5fc4",
+      "front": "101",
+      "back": "back 101",
+      "deckId": "52a8"
+    },
+    {
+      "id": "9891",
+      "front": "102",
+      "back": "back 102",
+      "deckId": "52a8"
+    },
+    {
+      "id": "5883",
+      "front": "103",
+      "back": "back 103",
+      "deckId": "52a8"
+    },
+    {
+      "id": "8fe4",
+      "front": "1f",
+      "back": "1b",
+      "deckId": "d85f"
+    },
+    {
+      "id": "4b5b",
+      "front": "2f",
+      "back": "2b",
+      "deckId": "d85f"
+    },
+    {
+      "id": "612c",
+      "front": "3f",
+      "back": "3b",
+      "deckId": "d85f"
+    },
+    {
+      "id": "1388",
+      "front": "4f",
+      "back": "4b",
+      "deckId": "d85f"
     }
   ]
 }

@@ -59,10 +59,9 @@ import {createCard, readDeck} from "../utils/api/index";
            
       const abortCon = new AbortController();
  
-      async function makeCard() {
          try {
               // create a new deck
-              await createCard(deckId,formData);
+              await createCard(deckId,formData,abortCon.signal);
            
               // reset form to initial state
              setFormData({ ...initialFormState });
@@ -70,13 +69,12 @@ import {createCard, readDeck} from "../utils/api/index";
             catch (err){
              throw err
            }
+           abortCon.abort();
          }
           
-       makeCard();
-     
-       abortCon.abort();
+       
       
- };
+
      
  //=============================================================================================
           const handleDone = (event) => {
@@ -97,7 +95,8 @@ import {createCard, readDeck} from "../utils/api/index";
  //============================================================================================          
          
        // TODO: Add the required input and textarea form elements.
- return (
+if(deck.id){
+     return (
         <div> 
            
            <nav aria-label="breadcrumb">
@@ -165,9 +164,9 @@ import {createCard, readDeck} from "../utils/api/index";
         </div> 
        );
      }
- 
- 
- 
+  return(<p>Loading...</p>)
+    }
+
   export default AddCard;
  
  
