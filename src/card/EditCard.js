@@ -14,50 +14,51 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
 
      // set state of all elements of the form 
      const [formData, setFormData] = useState({ ...initialFormState });
+     
+     // load the card to be edited and the deck that its from
+     const [deck, setDeck] = useState({});
+     const [card, setCard] = useState({});
+
+     // using other use hooks
      const history = useHistory();
      const { deckId, cardId } = useParams();
   
-     // load the card to be edited
-     const [deck, setDeck] = useState({});
-     const [card, setCard] = useState({});
-    
 
 //=====================================================================
-   
-       useEffect(() => {
+     //console.log("CARDID:", cardId);
+     useEffect(() => {
+
          setDeck({});
-         setCard({});
+      
          const abortController = new AbortController();
      
-         async function loadDeckandCard() {
+         async function loadDeckAndCard() {
            try {
-             const loadedDeck =  await readDeck(deckId,abortController.signal);
-             setDeck(loadedDeck);
+               const loadedDeck =  await readDeck(deckId,abortController.signal);
+               //console.log("EditCard - loadedDeck:",loadedDeck);
+               setDeck({...loadedDeck});
+               //console.log("EditCard - deck:",deck);
+             
+               const loadedCard = await readCard(cardId, abortController.signal);
+               //console.log("EditCard - loadedCard:",loadedCard);
+               setCard({...loadedCard});
+               //console.log("EditCard - card:",card);
 
-             const loadedCard = await readCard(cardId, abortController.signal);
-             setCard(loadedCard);
 
-             setFormData({...loadedCard});
-            } catch (err) {throw err}
-         }
-         loadDeckandCard();
-         return abortController.abort();
-       }, [deckId,cardId]);
+               setFormData({...loadedCard});
+               //console.log("EditCard - formData:",formData);
+            } 
+            catch (err){
+               throw err
+            }
+          }
+        loadDeckAndCard();
+         
+        return () => abortController.abort(); 
+
+      }, [deckId,cardId]);
      
-
-    //    useEffect(() => {
-    //     setCard({});
-    //     const abortController = new AbortController();
-    //     async function loadCard() {
-    //       try{
-           
-    //        }catch (err) {throw err}
-    // }
-    //     loadCard();
-    //     return () => abortController.abort();
-    //   }, [cardId]);
-
-       
+          
     
 //=================================================================================   
     // TODO: Add the required submit and change handlers
@@ -77,38 +78,35 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
        // prevent default behavior of button when clicked 
        event.preventDefault(); 
 
-        const abortController = new AbortController;
+     
           try {
               // update a new deck
-              const updatedCard = await updateCard({formData,id:cardId, deckId}, abortController.signal);
-              console.log("EditCard - updatedCard:", updatedCard);
-              setCard(updatedCard);
+              const updatedCard = await updateCard(formData);//, abortController.signal);
+              //console.log("EditCard - updatedCard:", updatedCard);
+              setCard({...updatedCard});
 
-               // redirect to Deck Screen
-               history.push(`/decks/${deckId}`);
-               
-               // setFormData({ ...initialFormState });
-               setFormData({ ...updatedCard});
+              // setFormData({ ...initialFormState });
+              setFormData({...updatedCard});
 
+              // redirect to Deck Screen
+              history.push(`/decks/${deckId}`);
+                              
           } 
           catch (err) {
             throw err;
           }
   
-          abortController.abort();
- 
-          // redirect to Deck Screen
-          // history.push(`/decks/${deckId}`);
+       
   };
                
     
       const handleCancel = (event) => {
          
-              //prevent default behavior of button  when clicked 
-             event.preventDefault();
+              //prevent default behavior of button when clicked 
+              event.preventDefault();
                                  
-             // reset form to initial state 
-             setFormData({ ...initialFormState });
+              // reset form to initial state 
+              setFormData({ ...initialFormState });
            
               // redirect to Deck Screen
               history.push(`/decks/${deckId}`);
@@ -123,12 +121,13 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
   return (
       <div> 
           
-         <nav aria-label="breadcrumb">
-              <Link to={'/'}> Home </Link>
+          <nav aria-label="breadcrumb" className="light-gray-background my-2" >
+              <Link to={'/'} className="blue-text"><span className="fa-solid fa-house mr-1"></span>
+               Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to={`/decks/${deckId}`}> {deck.name} </Link>
+              <Link to={`/decks/${deckId}`}  className="blue-text"> {deck.name} </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to="#"> Edit Card {card.id}</Link>
+                 <Link to={"#"} className="gray-text"> Edit Card {card.id}</Link>
          </nav>
 
          <h2>Edit Card</h2>
@@ -173,7 +172,7 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
                      <td>
                        <button type="button" className="btn btn-secondary " onClick={handleCancel}>Cancel</button>                     
                                        
-                       <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Submit</button>                      
+                       <button type="submit" className="btn btn-primary mx-2" onSubmit={()=>handleSubmit}>Submit</button>                      
                    </td>  
                    
                  </tr>

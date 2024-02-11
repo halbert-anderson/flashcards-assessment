@@ -1,0 +1,25 @@
+.blue-text {
+    color: darkblue;
+  }
+
+  .gray-text {
+    color: black;
+  }
+  .light-gray-background{
+
+        background-color: lightgray; /* Replace #yourColorHere with the color you want */
+  
+
+}
+input{height: 100%;
+    width: 100%;
+    min-width: 100%;   
+    max-width: 100%; 
+   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */}
+    
+tr textarea {
+        width: 100%;
+        box-sizing: border-box; /* Ensures padding and border are included in the width */
+      }

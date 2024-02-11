@@ -17,18 +17,17 @@
     },
     {
       "id": "59fe",
-      "name": "dffadsffa",
+      "name": "dffadsffas",
       "description": "dfadfasdfsdf"
     },
     {
-      "id": "d85f",
       "name": "sdfadf",
       "description": "afsafa"
     },
     {
       "id": "e0e9",
-      "name": "Evan Deck",
-      "description": "My first deck"
+      "name": "Evan Decks",
+      "description": "My first decks"
     },
     {
       "id": "eb2b",
@@ -56,11 +55,6 @@
       "description": "hal i info"
     },
     {
-      "id": "f2ea",
-      "name": "Hal 2001",
-      "description": "one more deck"
-    },
-    {
       "id": "9a52",
       "name": "Hal 2001",
       "description": "new deck"
@@ -69,6 +63,11 @@
       "id": "52a8",
       "name": "new deck 100",
       "description": "one hundred"
+    },
+    {
+      "id": "0401",
+      "name": "Newest Deck",
+      "description": "All the latest and greatest in decking"
     }
   ],
   "cards": [
@@ -157,12 +156,6 @@
       "deckId": "59fe"
     },
     {
-      "id": "8a7c",
-      "front": "eeee",
-      "back": "ffff",
-      "deckId": "d131"
-    },
-    {
       "id": "708c",
       "front": "werrwe",
       "back": "dsafasdfsa",
@@ -218,8 +211,8 @@
     },
     {
       "id": "2be0",
-      "front": "77",
-      "back": "77",
+      "front": "77s",
+      "back": "77s",
       "deckId": "e0e9"
     },
     {
@@ -250,7 +243,7 @@
       "id": "c75e",
       "front": "card2",
       "back": "back card 2",
-      "deckId":"9a52"
+      "deckId": "9a52"
     },
     {
       "id": "be78",
@@ -299,6 +292,84 @@
       "front": "4f",
       "back": "4b",
       "deckId": "d85f"
+    },
+    {
+      "id": "2432",
+      "front": "front 7.1",
+      "back": "back 7.1",
+      "deckId": "9b89"
+    },
+    {
+      "id": "71d8",
+      "front": "front 7.2",
+      "back": "back 7.2",
+      "deckId": "9b89"
+    },
+    {
+      "id": "7378",
+      "front": "front 7.3",
+      "back": "back 7.3",
+      "deckId": "9b89"
+    },
+    {
+      "id": "4294",
+      "front": "EF1",
+      "back": "EB1",
+      "deckId": "5146"
+    },
+    {
+      "id": "3719",
+      "front": "EF@",
+      "back": "EB2",
+      "deckId": "5146"
+    },
+    {
+      "id": "dfd1",
+      "front": "EF3",
+      "back": "EB3",
+      "deckId": "5146"
+    },
+    {
+      "id": "b49a",
+      "front": "ES1",
+      "back": "ES2",
+      "deckId": "eb2b"
+    },
+    {
+      "id": "365d",
+      "front": "ESF",
+      "back": "ESB",
+      "deckId": "eb2b"
+    },
+    {
+      "id": "365d",
+      "front": "ESF",
+      "back": "ESB",
+      "deckId": "eb2b"
+    },
+    {
+      "id": "365d",
+      "front": "ESF",
+      "back": "ESB",
+      "deckId": "eb2b"
+    },
+    {
+      "id": "d727",
+      "front": "H1F",
+      "back": "H1B",
+      "deckId": "5d1f"
+    },
+    {
+      "id": "d9d1",
+      "front": "H1/2F",
+      "back": "H1/2B",
+      "deckId": "5d1f"
+    },
+    {
+      "id": "dff9",
+      "front": "new 1 f",
+      "back": "new 1 b",
+      "deckId": "0401"
     }
   ]
 }

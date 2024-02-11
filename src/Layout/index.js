@@ -22,27 +22,24 @@ function Layout() {
         
          <Switch>
 
-              <Route exact path="/">
-                     <Home />
-              </Route>
+              
         
-              <Route  path="/decks/new">
+              <Route path="/decks/new">
                      <CreateDeck />
               </Route>
+              
+              
 
-              <Route exact path="/decks/:deckId"> 
-                     <Deck />
-              </Route> 
-
-              <Route  path="/decks/:deckId/edit">
-                     <EditDeck />
-              </Route> 
-
-              <Route  path="/decks/:deckId/study">
+              <Route path="/decks/:deckId/study">
                      <Study />
               </Route>
 
-              <Route  path="/decks/:deckId/cards/new">
+              <Route path="/decks/:deckId/edit">
+                     <EditDeck />
+              </Route> 
+
+              
+              <Route path="/decks/:deckId/cards/new">
                      <AddCard />
               </Route>
               
@@ -50,6 +47,14 @@ function Layout() {
                      <EditCard />
               </Route>
 
+              <Route exact path="/decks/:deckId"> 
+                     <Deck />
+              </Route> 
+
+              <Route exact path="/">
+                     <Home />
+              </Route>
+              
               <Route>
                      <NotFound />
               </Route>

@@ -73,11 +73,11 @@ const cardsArray=cards.map((card,index) =>{return(
        <h2>Card {index+1} of {cards.length}</h2>
 
          { readFront?(<div><p>{card.front}</p>
-           <button type="button" className="btn btn-secondary mx-2" onClick={handleFlip}>
+           <button type="button" className="btn btn-secondary " onClick={handleFlip}>
               Flip
           </button></div> ):(<div><p>{card.back}</p>
 
-          <button type="button" className="btn btn-secondary mx-2" onClick={handleFlip}>
+          <button type="button" className="btn btn-secondary " onClick={handleFlip}>
               Flip
           </button>
           

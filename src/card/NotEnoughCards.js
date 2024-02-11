@@ -8,7 +8,7 @@ return( <div>
       <p>You need at least 3 cards to study. There are {length} cards in this deck.</p>
 
       <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deckId}/cards/new`)}>
-         Add Cards
+         <span className="fa-solid fa-plus mr-1"></span> Add Cards
       </button>
 
 

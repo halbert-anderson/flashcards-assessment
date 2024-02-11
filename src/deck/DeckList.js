@@ -1,35 +1,62 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useHistory} from "react-router-dom";
 import {deleteDeck, listDecks} from "../utils/api/index";
 
-function DeckList({ decks ,setDecks }) {
+function DeckList() {
 
 //===========================================================================================
-//====using use hooks========================================================================
+//==================using use hooks===========================================================
+const [decks, setDecks] = useState([]);
 const history =useHistory();
+
+//===========================================================================================
+//===========useEffect loads all the current decks in the database===========================
+   useEffect(() => {
+     setDecks([]);
+     const abortController = new AbortController();
+     async function loadDecks() {
+      try {
+         const loadedDecks =  await listDecks(abortController.signal);
+         console.log("DeckList - loadedDecks:", loadedDecks)
+         setDecks(loadedDecks);
+       } catch (err) {throw err}
+     }
+  
+      loadDecks();
+     return () => abortController.abort();
+     },[]);
 
 //===========================================================================================
 //=====click handler for delete button to delete a deck======================================
   const handleDelete = async (event,id) =>  {
-     event.preventDefault();
-     console.log("id:",id);
+
+  // prevent default behavior of button when clicked 
+    event.preventDefault();
+
+     console.log("DeckList - id:",id);
      
      const result  = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
         if (result) {
+
+          const abortController = new AbortController();
+          
+               try{
                    await deleteDeck(id);
                    const loadedDecks =  await listDecks();
                    setDecks(loadedDecks);
                    
     // TODO: After the deck is deleted, send the user to the home page.
                    history.push("/"); 
-                   window.location.reload();    
-             }
-    };
-
+                  // window.location.reload();     
+                 } catch (err) {throw err}
+      
+                 return () => abortController.abort();   
+         };
+        }
 //============================================================================================
 console.log("DeckList - decks:", decks);
 
-
+if(decks){
   return (
     <div>
       {decks.map((deck) => (
@@ -54,22 +81,24 @@ console.log("DeckList - decks:", decks);
               <div className="flex-item">
                
                  <button type="button" className="btn btn-secondary mx-2" onClick={() => history.push(`/decks/${deck.id}`)}>
+                 <span className="fa-solid fa-eye mr-1"></span>  
                     View
-                 </button>
+                    </button>
 
                  {/* TODO: study button doesn't render as expected */}
                  <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
+                    <span className="fa-solid fa-book mr-1"></span> 
                     Study
-                 </button>
+                    </button>
                 
               </div>
 
               <div className="flex-item"> 
 
                  <button type="button" className="btn btn-danger mx-2" onClick={(e)=>handleDelete(e,deck.id)}>
-                    <i className="fa-solid fa-trash-can"></i>
+                 <span className="fa-solid fa-trash-can"></span>
                     Delete
-                 </button>
+                    </button>
 
               </div>
 
@@ -80,41 +109,61 @@ console.log("DeckList - decks:", decks);
     </div>
   );
 }
- 
+ return(<p>Loading...</p>)
+}
+
+//The DeckList function is exported into the Home componenet
 export default DeckList;
-/*
-// <ViewDeckButton deckId={deckId} />
-//<StudyDeckButton />
-// <DeleteDeckButton deckId= {deck.id}/> 
 
-async function handleDelete(id) {
-    const abortCon = new AbortController();
-    try {
-      const result = window.confirm(
-        "Delete this deck?/n/n/nYou will not be able to recover it."
-      );
-      if (result) {
-        await deleteDeck(id, abortCon.signal);
-        window.location.reload();
-      }
-    } catch (err) {throw err}
-    return () => abortCon.abort();
-  }
 
-  */
-  
-  /*
 
- <Link
-                  className="btn btn-secondary mr-2"
-                  to={`decks/${deck.id}`}
-                >
-                  <i className="fa-solid fa-eye mr-1"></i>View
-                </Link>
-                <Link
-                  className="btn btn-primary  mr-2"
-                  to={`/decks/${deck.id}/study`}
-                >
-                  <i className="fa-solid fa-book mr-1"></i>Study
-                </Link>
-*/
+
+// async function handleDelete(id) {
+//     const abortController = new AbortController();
+//     try {
+//       const result = window.confirm(
+//         "Delete this deck?/n/n/nYou will not be able to recover it."
+//       );
+//       if (result) {
+//         await deleteDeck(id, abortController.signal);
+//         window.location.reload();
+//       }
+//     } catch (err) {throw err}
+//     return () => abortController.abort();
+//   }
+
+
+// //  const decksListed = decks.map((deck) => {
+// //    return (
+// //     <div className="border rounded p-2 my-2" key={deck.id}>
+// //        <div>
+// //          <h3>
+// //         {deck.name}
+// //           <small className="float-right">{deck.cards.length} cards</small>
+// //          </h3>
+// //         </div>
+// //         <div>
+// //            <p>{deck.description}</p>
+// //         </div>
+// //          <div>
+// //                 <button className="btn btn-secondary mx-1" onClick={() => history.push(`/decks/${deck.id}`)}>
+// //                  <span className="oi oi-eye mx-1"></span>
+// //                       View
+// //                 </button>
+// //                   <button className="btn btn-primary" onClick={() => history.push(`/decks/${deck.id}/study`)}>
+// //                      <span className="oi oi-book mx-1"></span>
+// //                             Study
+// //                    </button>
+
+// //                  <DeckDelete deckId={deck.id} />
+                 
+// //             </div>
+// //    </div>
+// //    );
+// //    });
+
+
+
+
+
+

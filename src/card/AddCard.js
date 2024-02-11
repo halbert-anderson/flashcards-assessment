@@ -24,6 +24,7 @@ import {createCard, readDeck} from "../utils/api/index";
 
      useEffect(() => {
         const abortController = new AbortController();
+        
         async function loadDeck() {
           const response = await readDeck(deckId, abortController.signal);
           setDeck(response);
@@ -57,19 +58,22 @@ import {createCard, readDeck} from "../utils/api/index";
       // prevent default behavior of button  when clicked 
       event.preventDefault();
            
-      const abortCon = new AbortController();
+     // const abortController = new AbortController();
  
          try {
               // create a new deck
-              await createCard(deckId,formData,abortCon.signal);
+              const newCard = await createCard(deckId,formData);//abortController.signal);
            
               // reset form to initial state
              setFormData({ ...initialFormState });
+
+             // redirect to Deck Screen
+             history.push(`/decks/${deckId}`);
             } 
             catch (err){
              throw err
            }
-           abortCon.abort();
+          // abortController.abort();
          }
           
        
@@ -87,6 +91,7 @@ import {createCard, readDeck} from "../utils/api/index";
        
           // redirect to Deck Screen
           history.push(`/decks/${deckId}`);
+          //window.location.reload();
 
           };
  
@@ -99,12 +104,13 @@ if(deck.id){
      return (
         <div> 
            
-           <nav aria-label="breadcrumb">
-               <Link to={'/'}> Home </Link>
+           <nav aria-label="breadcrumb" className="light-gray-background my-2" >
+               <Link to={'/'} className="blue-text"><span className="fa-solid fa-house mr-1"></span>
+                Home </Link>
                   <span className="breadcrumb-arrow">&#47;</span>
-               <Link to={`/decks/${deck.id}`}> {deck.name} </Link>
+               <Link to={`/decks/${deck.id}`}  className="blue-text"> {deck.name} </Link>
                    <span className="breadcrumb-arrow">&#47;</span>
-               <Link to={"#"}> Add Card </Link>
+                   <Link to={"#"} className="gray-text">Add Card </Link>
            </nav>
 
            <h2>{deck.name}: Add Card</h2>
@@ -146,12 +152,10 @@ if(deck.id){
    
                  <tr>  
                      <td>
-                       <button type="button" className="btn btn-secondary mx-2" onClick={handleDone}>Done</button>                     
-                    </td>
-     
-                    <td>                     
+                       <button type="button" className="btn btn-secondary" onClick={handleDone}>Done</button>                     
+                                         
                        <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Save</button>                      
-                   </td>  
+                     </td>  
                    
                  </tr>
                  

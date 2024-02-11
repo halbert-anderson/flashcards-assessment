@@ -7,7 +7,7 @@ const history = useHistory();
 
 return(
 <button type="button" className="btn btn-secondary mx-2" onClick={() => history.push("/decks/new")}>
-   Create Deck
+<span className="fa-solid fa-plus mr-1"></span>  Create Deck
 </button>
 )
 

@@ -30,15 +30,17 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
 
          setDeck({});
         
-         const abortCon = new AbortController();
+         const abortController = new AbortController();
      
          async function loadDeck() {
            try {
              //console.log("EditDeck - deckId:", deckId);
-             const loadedDeck =  await readDeck(deckId, abortCon.signal);
-             //console.log("EditDeck - loadedDeck:", loadedDeck);
-             setDeck(loadedDeck);
-             setFormData(loadedDeck);
+             const loadedDeck =  await readDeck(deckId, abortController.signal);
+             console.log("EditDeck - loadedDeck:", loadedDeck);
+             setDeck({...loadedDeck});
+             console.log("DECK:",deck);
+             setFormData({...loadedDeck});
+             console.log("FORMDATA:",formData);
            } 
            catch (err){
             throw err
@@ -46,8 +48,8 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
          }
 
          loadDeck();
-
-         return abortCon.abort();
+        
+         return () => abortController.abort();
 
        }, [deckId]);
      
@@ -67,30 +69,38 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
     
 
     // TODO: When the form is submitted, a Deck should be update, and the form contents cleared.
-    const handleSubmit = async (event,id) => {
+    const handleSubmit = async (event) => {
     
        // prevent default behavior of button when clicked 
        event.preventDefault();
           
-       const abortCon = new AbortController();
-  
+       //const abortController = new AbortController();
+     const id = deckId;
+    console.log("EditDeck - id:", id);
           try {
               // update a new deck
-              console.log("EditDeck -  {formData,  id}:",{...formData, "id":{id}} );
-              const updatedDeck = await updateDeck({...formData, "id":{id}},abortCon.signal);
-              setDeck(updatedDeck);
+              console.log("EditDecky -  {formData,  id}:",{...formData} );
+              const updatedDeck = await updateDeck({...formData});//,abortController.signal);
+              console.log("EditDeck - updatedDeck:", updatedDeck);
+              const{name,description}=updatedDeck;
+              console.log('NAME:',name);
+              setDeck({...updatedDeck});
+              console.log("EditDeck - deck:", deck);
               // reset form to initial state
-             setFormData({ ...updatedDeck });
+             setFormData({...updatedDeck});
+             console.log("EditDeck - formData:", formData);
+             // redirect to Deck Screen
+             history.push(`/decks/${deckId}`)
           } 
           catch (err) {
               throw err
             }
   
-        abortCon.abort();
+        //abortController.abort();
 
         // redirect to Deck Screen
-        history.push(`/decks/${deckId}`)
-        //window.location.reload();
+        // history.push(`/decks/${deckId}`)
+        // window.location.reload();
     };
         
 
@@ -111,12 +121,13 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
   // TODO: Add the required input and textarea form elements.
   return (
       <div>         
-         <nav aria-label="breadcrumb">
-              <Link to={'/'}> Home </Link>
+         <nav aria-label="breadcrumb" className="light-gray-background my-2" >
+              <Link to={'/'}  className="blue-text"><span className="fa-solid fa-house mr-1"></span>
+               Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to={`/decks/${deckId}`}> {deck.name} </Link>
+              <Link to={`/decks/${deckId}`}  className="blue-text"> {deck.name} </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to="#"> Edit Deck </Link> 
+                 <Link to={"#"} className="gray-text">Edit Deck </Link> 
               
          </nav>
          <h2>Edit Deck</h2>
@@ -124,7 +135,7 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
             <table>
               <tbody>
                 <tr>
-                  <td> 
+                  <td>
                     <label htmlFor="name">Name
                     </label>
                     <br/>
@@ -138,9 +149,9 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
                        value={formData.name}
                      />
                   </td>
-               </tr>
+                </tr>
 
-               <tr>
+                <tr>
                   <td>
                     <label htmlFor="description">Description
                     </label>
@@ -154,15 +165,15 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
                          onChange={handleFormChange} 
                          value={formData.description} 
                        />                      
-                   </td>
+                  </td>
                 </tr>
   
                 <tr>  
-                    <td>
-                      <button type="button" className="btn btn-secondary" onClick={()=>handleCancel}>Cancel</button>                     
+                  <td>
+                    <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>                     
                                       
-                      <button type="submit" className="btn btn-primary mx-2" onSubmit={()=>handleSubmit(deck.id)}>Submit</button>                      
-                    </td>  
+                    <button type="submit" className="btn btn-primary mx-2" onSubmit={()=>handleSubmit()}>Submit</button>                      
+                  </td>  
                 </tr>              
             </tbody>              
           </table>            

@@ -38,11 +38,11 @@ function CreateDeck(){
      // prevent default behavior of button  when clicked 
      event.preventDefault();
           
-     const abortCon = new AbortController();
+     const abortController = new AbortController();
 
         try {
              //create a new deck
-        let newDeck = await createDeck(formData, abortCon.signal);
+        let newDeck = await createDeck(formData, abortController.signal);
           
              // reset form to initial state
               setFormData({ ...newDeck });
@@ -56,11 +56,10 @@ function CreateDeck(){
           }
       
     
-      abortCon.abort();
-
+           abortController.abort();
      // redirect to Deck Screen
-    // newDeck.then(x => history.push(`/decks/${x.id}`));
-    // history.push(`/decks/${newDeck.id}`)
+     // newDeck.then(x => history.push(`/decks/${x.id}`));
+     // history.push(`/decks/${newDeck.id}`)
 };
     
 //=============================================================================================
@@ -70,7 +69,7 @@ function CreateDeck(){
          event.preventDefault();
                             
          // reset form to initial state
-        // setFormData({ ...initialFormState });
+        setFormData({ ...initialFormState });
       
          // redirect to Home Screen
          history.push("/"); 
@@ -85,10 +84,12 @@ function CreateDeck(){
 return (
        <div> 
           
-         <nav aria-label="breadcrumb">
-              <Link to={'/'}> Home </Link>
+
+         <nav aria-label="breadcrumb" className="light-gray-background my2" >
+              <Link to={'/'} className="blue-text"><span className="fa-solid fa-house mx-2"></span>
+                 Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to={"#"} > Create Deck </Link>
+              <Link to={"#"} className="gray-text"> Create Deck </Link>
          </nav>
           
           <form name="create" onSubmit={handleSubmit}>
@@ -120,6 +121,7 @@ return (
                          name="description" 
                          required={true} 
                          rows={1} 
+                         style={{ width: '100%', display: 'block' }}
                          placeholder="Brief description of the deck" 
                          onChange={handleFormChange} 
                          value={formData.description} 
@@ -129,7 +131,8 @@ return (
   
                 <tr>  
                     <td>
-                      <button type="button" className="btn btn-secondary " onClick={handleCancel}>Cancel</button>                     
+                      <button type="button" className="btn btn-secondary " onClick={handleCancel}>
+                        Cancel</button>                     
                                    
                       <button type="submit" className="btn btn-primary mx-2" onSubmit={handleSubmit}>Submit</button>                      
                   </td>  
