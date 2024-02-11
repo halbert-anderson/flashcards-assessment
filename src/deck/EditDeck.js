@@ -68,39 +68,32 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
           };
     
 
-    // TODO: When the form is submitted, a Deck should be update, and the form contents cleared.
+    // When the form is submitted, deck is updated, and the form contents cleared.
     const handleSubmit = async (event) => {
     
        // prevent default behavior of button when clicked 
        event.preventDefault();
-          
-       //const abortController = new AbortController();
-     const id = deckId;
-    console.log("EditDeck - id:", id);
+                  
+       // console.log("EditDeck - id:", id);
           try {
               // update a new deck
-              console.log("EditDecky -  {formData,  id}:",{...formData} );
-              const updatedDeck = await updateDeck({...formData});//,abortController.signal);
-              console.log("EditDeck - updatedDeck:", updatedDeck);
+              const updatedDeck = await updateDeck({...formData});;
+              
               const{name,description}=updatedDeck;
-              console.log('NAME:',name);
               setDeck({...updatedDeck});
-              console.log("EditDeck - deck:", deck);
+                           
               // reset form to initial state
-             setFormData({...updatedDeck});
-             console.log("EditDeck - formData:", formData);
-             // redirect to Deck Screen
-             history.push(`/decks/${deckId}`)
+              setFormData({...updatedDeck});
+             
+              // redirect to Deck Screen
+              history.push(`/decks/${deckId}`)
+              // window.location.reload();
           } 
           catch (err) {
               throw err
             }
   
-        //abortController.abort();
-
-        // redirect to Deck Screen
-        // history.push(`/decks/${deckId}`)
-        // window.location.reload();
+                      
     };
         
 
@@ -117,7 +110,8 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
        window.location.reload();
     };
 
-  if(deck.id){           
+  if(deck.id){        
+
   // TODO: Add the required input and textarea form elements.
   return (
       <div>         

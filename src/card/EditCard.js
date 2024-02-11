@@ -125,9 +125,9 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
               <Link to={'/'} className="blue-text"><span className="fa-solid fa-house mr-1"></span>
                Home </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-              <Link to={`/decks/${deckId}`}  className="blue-text"> {deck.name} </Link>
+               <Link to={`/decks/${deckId}`}  className="blue-text"> {deck.name} </Link>
                  <span className="breadcrumb-arrow">&#47;</span>
-                 <Link to={"#"} className="gray-text"> Edit Card {card.id}</Link>
+              <Link to={"#"} className="gray-text"> Edit Card {card.id}</Link>
          </nav>
 
          <h2>Edit Card</h2>

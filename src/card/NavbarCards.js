@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 //import { Breadcrumbs, BreadcrumbsItem } from "react-breadcrumbs-dynamic";
+
 function NavbarCards( {deck, routes}){
  return( 
     <div>
@@ -14,8 +15,8 @@ function NavbarCards( {deck, routes}){
   </div>
     );    
 }
-
+//exported to study component
 export default NavbarCards;
 
-//    
+ 
         

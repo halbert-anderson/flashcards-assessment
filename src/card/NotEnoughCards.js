@@ -15,5 +15,5 @@ return( <div>
 </div>)
 
 }
-
+//exported to study component
 export default NotEnoughCards;

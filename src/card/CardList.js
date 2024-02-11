@@ -15,8 +15,7 @@ const history =useHistory();
 //=========click handler for delete button==================================================
   const handleCardDelete = async (event,id) =>  {
       event.preventDefault();
-      console.log("CardList - id:",id);
-
+      
       const result = window.confirm("Delete this card?\n\n\n You will not be able to recover it.");
   
       if(result){
@@ -37,7 +36,7 @@ const history =useHistory();
    
 //================================================================================================
 
-console.log("cardList - cards:", cards);
+//console.log("cardList - cards:", cards);
 if(cards){
   return (
     <div>

@@ -10,33 +10,28 @@ import CardList from "../card/CardList.js";
  //===================================================================== 
  //===setting state and using hooks===========================       
       const [deck, setDeck] = useState({});
-   //   const [cards, setCards] = useState([]);
-     // const [decks, setDecks] = useState([]);
       const { deckId } = useParams(); 
       const history = useHistory();
  
-//==useEffect hook to set state for deck object and cards array=========
-console.log("Deck -anything");
+//==useEffect hook to set state for deck object ==============================
+
 useEffect(() => {
-console.log("Deck -anything2");
+
    setDeck({});
-   // setCards([]);
+      
    const abortController = new AbortController();
-   async function loadDeckAndCards() {   
-      try{            
-         console.log("Deck - deckId:", deckId);
-         const response = await readDeck(deckId, abortController.signal);
-         console.log("Deck - RESPONSE:",response);
-         console.log("Deck - RESPONSE.cards:",response.cards);
+   
+   async function loadDeck() {   
+      try{                     
+         const response = await readDeck(deckId, abortController.signal);         
          setDeck(response);
-    //     setCards(response.cards);
       } 
       catch (err) {
          throw err;
       }
    }
 
-   loadDeckAndCards();
+   loadDeck();
    return () => abortController.abort();
  
 },[deckId]);
@@ -53,29 +48,28 @@ const handleDeckDelete = async (event) => {
 
    const result = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
    if (result) {
-  try{
-     await deleteDeck(deckId);
-
-     // TODO: After the deck is deleted, send the user to the home page.
-     //const loadedDecks =  await listDecks(deckId);
-     //setDecks(loadedDecks);
-     //DeckList({decks})
-     history.push("/");     
-   }catch (err) {throw err}
+     try{     
+         // TODO: After the deck is deleted, send the user to the home page.
+         await deleteDeck(deckId);
+     
+         history.push("/");     
+      }
+     catch(err)
+     {
+        throw err}
       
    };
    
  };
 
 //==========================================================================================
-    console.log("Deck - deck:", deck);
-    console.log("Deck - deck.cards:", deck.cards);   
- //  console.log("Deck - cards:", cards);
+    
 if (deck.id){
-     return( 
-      <div>
+   return( 
+
+         <div>
         
-        <nav aria-label="breadcrumb" className="light-gray-background my-2" >
+            <nav aria-label="breadcrumb" className="light-gray-background my-2" >
            
                   <Link to={'/'} className="blue-text"><span className="fa-solid fa-house mx-2"></span>
                    Home </Link>
@@ -86,54 +80,59 @@ if (deck.id){
             </nav>
           
             <div className="card" key={deck.id}>
-             <div className="card-body">
-                <div> 
+              <div className="card-body">
+                 <div> 
                    <h2>{deck.name}</h2>  
-                </div>
+                 </div>
               
-                <div>
+                 <div>
                    <p>{deck.description}</p>
-                </div>
+                 </div>
 
-                <div className="d-flex justify-content-between">
-                  <div className="flex-item">
+                 <div className="d-flex justify-content-between">
 
-                     <button type="button" className="btn btn-secondary mx-2"  onClick={() => history.push(`/decks/${deck.id}/edit`)}>
-                     <span className="fa-solid fa-pencil mr-1"></span>  Edit
-                     </button>
+                     <div className="flex-item">
 
-                     <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
-                     <span className="fa-solid fa-book mr-1"></span>  Study
-                     </button>
+                       <button type="button" className="btn btn-secondary mx-2"  onClick={() => history.push(`/decks/${deck.id}/edit`)}>
+                       <span className="fa-solid fa-pencil mr-1"></span>  
+                       Edit
+                       </button>
 
-                     <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/cards/new`)}>
-                     <span className="fa-solid fa-plus mr-1"></span> Add Cards
-                     </button>
-                  </div>
+                       <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/study`)}>
+                       <span className="fa-solid fa-book mr-1"></span>  
+                       Study
+                       </button>
 
-                  <div className="flex-item">
+                       <button type="button" className="btn btn-primary mx-2" onClick={() => history.push(`/decks/${deck.id}/cards/new`)}>
+                       <span className="fa-solid fa-plus mr-1"></span> 
+                       Add Cards
+                       </button>
 
-                     <button type="button" className="btn btn-danger mx-2" onClick={handleDeckDelete}>
-                     <span className="fa-solid fa-trash-can"></span> Delete
-                     </button>
+                     </div>
 
-                  </div>
-                </div>
-             </div> 
-           </div>
-           <h2>Cards</h2>
-           {<CardList deck={deck}/>}
-      </div> 
-      
+                     <div className="flex-item">
+
+                       <button type="button" className="btn btn-danger mx-2" onClick={handleDeckDelete}>
+                       <span className="fa-solid fa-trash-can"></span> 
+                       Delete
+                       </button>
+
+                     </div>
+                 </div>
+              </div> 
+            </div>
+            <h2>Cards</h2>
+            {<CardList deck={deck}/>}
+         </div>       
    );
 
-     }
-      return(<p>Loading...</p>);
   }
+  return(<p>Loading...</p>);
+}
   
  
 
- export default Deck;
+export default Deck;
 
 
 

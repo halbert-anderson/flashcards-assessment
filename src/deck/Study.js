@@ -15,57 +15,57 @@ function Study( ){
   const {deckId} = useParams();
   const history = useHistory();
 //console.log("Study- deckId:", deckId);
+
 //========================================================================
-useEffect(() => {
+ useEffect(() => {
     setDeck({});
     setCards([]);
+
     const abortController = new AbortController();
+   
     async function loadDeck() {  
-       console.log("Study - deckId:", deckId);
-    const response = await readDeck(deckId, abortController.signal);
-       console.log("Study - RESPONSE:",response);
-      console.log("Study - response.cards", response.cards);
-    setDeck(response);
-    setCards(response.cards);
-    }
+       // console.log("Study - deckId:", deckId);
+       const response = await readDeck(deckId, abortController.signal);
+       // console.log("Study - RESPONSE:",response);
+       // console.log("Study - response.cards", response.cards);
+       setDeck(response);
+       setCards(response.cards);
+      }
 
     loadDeck();
     return () => abortController.abort();
 
   }, [deckId]);
 
-
-//console.log("Study - deck:", deck);
-//console.log("Study - cards:", cards);
+  //console.log("Study - deck:", deck);
+  //console.log("Study - cards:", cards);
 
 //===============================================================================================
 const handleFlip =  (event) => {
     // prevent default behavior of button  when clicked 
     event.preventDefault();
-   setReadFront(current => !current);
-};
+    setReadFront(current => !current);
+ };
 
 const handleNext =  (event) => {
     // prevent default behavior of button  when clicked 
     event.preventDefault();
+    
+    setReadFront(current => !current);
+    setCardIndex(current => current+1);
 
-  setReadFront(current => !current);
-  setCardIndex(current => current+1);
-  
-  if(cardIndex+1===cardsArray.length){
-   //const response = window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.");
-        if(window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.")){ setCardIndex(0)}
+    // Upon reaching the end of the deck of cards make a prompr to either study the deck again or quit the deck   
+    if(cardIndex+1===cardsArray.length){
+    
+        const restartDeck = window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.");
+       
+        // To start studying the deck from card 1 rest the card index to 0.
+        if(restartDeck){ setCardIndex(0)}
+        // If not studying the deck again redirect to home page
         else{ history.push("/")}  
+    }
  }
-}
-//  const handleRestart = () =>{
-//   const result = window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page.");
-//   if (result) {
-//     setCardIndex(0);}
-//   else{
-//     // TODO: If not restarting the cards, send the user to the home page.
-//     history.push("/");    } 
-// }
+
 
  
 const cardsArray=cards.map((card,index) =>{return(
@@ -88,19 +88,9 @@ const cardsArray=cards.map((card,index) =>{return(
     </div>
          )})
 
- /*for (cardIndex;cardIndex< cardsArray.length;setCardIndex(current=>current+1)){
-    if(carIndex+1<cardsArray.length){
-    <div>cardsArray[cardIndex]</div>
-     }else{
-     <div>cardsArray[cardIndex]</div>
-     <div>
-     <button type="button" className="btn btn-secondary mx-2" onClick={handleRestart}>
-        restart
-     </button></div>
-}
-*/
+ 
 
-//  if(deck.id){
+if(cards){
     if (cards.length < 3) {
       return(
            <div>
@@ -116,77 +106,20 @@ const cardsArray=cards.map((card,index) =>{return(
                        
                <h2>{cardIndex+1 < cards.length ? `Study: ${deck.name}` : `${deck.name}: Study`}</h2>
 
-                {cardsArray[cardIndex]}
-                {/* {(cardIndex<cardsArray.length)?(cardsArray[cardIndex]):
-                 (window.confirm("Restart Cards?\n\n\n Click 'cancel' to return to the home page."))?
-                 (setCardIndex(0)):(history.push("/"))    } */}
-
-                {/* // <button type="button" className="btn btn-secondary mx-2" onClick={handleRestart}>
-                    //    restart
-                    // </button> 
-                 */}
+                {cardsArray[cardIndex]}                
 
             </div>
   
           )}
   }
-  // else{ 
-  // // return(<p>Loading...</p>);
-  // }
-  
-// }
+ return(<p>Loading...</p>);
+}   
 
 export default Study;
 
  
    
-
-
-
-
- /* /*   useEffect(() => {
-    
-      setDeck({});
-      
-      const abortController = new AbortController();
-      
-      async function loadDeck(){
-      
-          try{
-             const response = await readDeck(deckId,abortController);
-             //const newDeck = await response.json();
-             //console.log(newDeck);
-             setDeck(response);
-            } 
-          catch (error) {
-             if (error.name !== "AbortError") {
-               console.error(error);
-              }
-            }     
-       }
-
-       loadDeck();
-
-       return () => {
-           abortController.abort(); // cancels any pending request or response
-        };
-
-     }, [deckId]);
-
-  */
- /*
-<nav aria-label="breadcrumb">    
-             
-             <Link to={'/'}>Home</Link>
-                <span className="breadcrumb-arrow">&#47;</span>
-             <Link to={'/decks/:deckId'}>{deck.name}</Link>
-                <span className="breadcrumb-arrow">&#47;</span>
-             <Link to={""}>Study</Link>
-                  
-           </nav>
-
- */
-
+ 
 /*
 if (deck.id) {
     return Object.entries(deck).map(([key, value]) => (
@@ -198,8 +131,3 @@ if (deck.id) {
   }
   return "Loading...";
 */
-/*
- for(let cardNumber=0; cardNumber<deck.cards.length; cardNumber++){
-
-
- }*/ 

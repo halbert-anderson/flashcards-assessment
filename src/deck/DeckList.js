@@ -38,19 +38,23 @@ const history =useHistory();
      const result  = window.confirm("Delete this deck?\n\n\n You will not be able to recover it.");
         if (result) {
 
-          const abortController = new AbortController();
+          //const abortController = new AbortController();
           
                try{
                    await deleteDeck(id);
                    const loadedDecks =  await listDecks();
                    setDecks(loadedDecks);
                    
-    // TODO: After the deck is deleted, send the user to the home page.
+                // TODO: After the deck is deleted, send the user to the home page.
                    history.push("/"); 
-                  // window.location.reload();     
-                 } catch (err) {throw err}
+                // window.location.reload();   
+
+                 } 
+                 catch (err) {
+                  throw err
+                }
       
-                 return () => abortController.abort();   
+              //   return () => abortController.abort();   
          };
         }
 //============================================================================================

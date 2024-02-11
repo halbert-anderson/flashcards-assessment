@@ -38,17 +38,16 @@ function CreateDeck(){
      // prevent default behavior of button  when clicked 
      event.preventDefault();
           
-     const abortController = new AbortController();
+     //const abortController = new AbortController();
 
         try {
-             //create a new deck
-        let newDeck = await createDeck(formData, abortController.signal);
+            //create a new deck
+            let newDeck = await createDeck(formData);//, abortController.signal);
           
              // reset form to initial state
-              setFormData({ ...newDeck });
+            setFormData({ ...newDeck });
 
-            // redirect to Deck Screen
-            // newDeck.then(x => history.push(`/decks/${x.id}`));
+             // redirect to Deck Screen
              history.push(`/decks/${newDeck.id}`)
            } 
            catch (err){
@@ -56,10 +55,8 @@ function CreateDeck(){
           }
       
     
-           abortController.abort();
-     // redirect to Deck Screen
-     // newDeck.then(x => history.push(`/decks/${x.id}`));
-     // history.push(`/decks/${newDeck.id}`)
+          // abortController.abort();
+     
 };
     
 //=============================================================================================
@@ -84,7 +81,6 @@ function CreateDeck(){
 return (
        <div> 
           
-
          <nav aria-label="breadcrumb" className="light-gray-background my2" >
               <Link to={'/'} className="blue-text"><span className="fa-solid fa-house mx-2"></span>
                  Home </Link>
