@@ -16,7 +16,7 @@ import {createCard, readDeck} from "../utils/api/index";
      // set state of all elements of the form 
      const [formData, setFormData] = useState({ ...initialFormState });
      const [deck, setDeck] = useState({});
-    // const [cards, setCards] =useState([]);
+     // const [cards, setCards] =useState([]);
      const {deckId} = useParams();
      const history = useHistory();
     
@@ -168,7 +168,7 @@ if(deck.id){
         </div> 
        );
      }
-  return(<p>Loading...</p>)
+  return(<p>Add Card Loading...</p>)
     }
 
   export default AddCard;

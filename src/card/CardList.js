@@ -55,11 +55,11 @@ if(cards){
             <div className="d-flex flex-row-reverse">
               <div className="flex-item">               
                  <button type="button" className="btn btn-primary mx-2" onClick={()=>history.push(`/decks/${deckId}/cards/${card.id}/edit`)}>
-                 <span className="fa-solid fa-pencil mr-1"></span> Edit
+                   <span className="fa-solid fa-pencil mr-1"></span> Edit
                  </button>
                 
                  <button type="button" className="btn btn-danger mx-2" onClick={(e)=>handleCardDelete(e,card.id)}>
-                 <span className="fa-solid fa-trash-can mr-1"></span> Delete
+                   <span className="fa-solid fa-trash-can mr-1"></span> Delete
                  </button>
               </div>
             </div>
@@ -69,6 +69,6 @@ if(cards){
     </div>
   );
 } 
-return(<p>Loading...</p>)
+return(<p>Card List Loading...</p>)
 }
 export default CardList;

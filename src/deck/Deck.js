@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Link, useHistory, useParams} from "react-router-dom";
-import {readDeck,deleteDeck, listDecks} from "../utils/api/index.js"
+import {readDeck,deleteDeck} from "../utils/api/index.js"
 import CardList from "../card/CardList.js";
 
 
@@ -127,7 +127,7 @@ if (deck.id){
    );
 
   }
-  return(<p>Loading...</p>);
+  return(<p>Deck Loading...</p>);
 }
   
  

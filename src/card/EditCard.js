@@ -188,7 +188,7 @@ import { readDeck, readCard, updateCard } from  "../utils/api/index.js";
       );
     }
     else{ 
-      return <p>Loading...</p>
+      return <p>Edit Card Loading...</p>
     }
 
   }

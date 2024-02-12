@@ -36,11 +36,11 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
            try {
              //console.log("EditDeck - deckId:", deckId);
              const loadedDeck =  await readDeck(deckId, abortController.signal);
-             console.log("EditDeck - loadedDeck:", loadedDeck);
+             //console.log("EditDeck - loadedDeck:", loadedDeck);
              setDeck({...loadedDeck});
-             console.log("DECK:",deck);
+             //console.log("DECK:",deck);
              setFormData({...loadedDeck});
-             console.log("FORMDATA:",formData);
+             //console.log("FORMDATA:",formData);
            } 
            catch (err){
             throw err
@@ -79,7 +79,6 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
               // update a new deck
               const updatedDeck = await updateDeck({...formData});;
               
-              const{name,description}=updatedDeck;
               setDeck({...updatedDeck});
                            
               // reset form to initial state
@@ -107,7 +106,7 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
       
        // redirect to the Deck Screen
        history.push(`/decks/${deckId}`); 
-       window.location.reload();
+      // window.location.reload();
     };
 
   if(deck.id){        
@@ -176,6 +175,6 @@ import { readDeck, updateDeck} from  "../utils/api/index.js";
       );
   }
 
-  return <p>Loading...</p>;
+  return <p>Edit Deck Loading...</p>;
 }
  export default EditDeck;

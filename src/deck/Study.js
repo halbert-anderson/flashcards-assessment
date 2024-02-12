@@ -26,8 +26,8 @@ function Study( ){
     async function loadDeck() {  
        // console.log("Study - deckId:", deckId);
        const response = await readDeck(deckId, abortController.signal);
-       // console.log("Study - RESPONSE:",response);
-       // console.log("Study - response.cards", response.cards);
+        console.log("Study - RESPONSE:",response);
+        console.log("Study - response.cards", response.cards);
        setDeck(response);
        setCards(response.cards);
       }
@@ -90,7 +90,7 @@ const cardsArray=cards.map((card,index) =>{return(
 
  
 
-if(cards){
+if(deck){
     if (cards.length < 3) {
       return(
            <div>
@@ -112,7 +112,7 @@ if(cards){
   
           )}
   }
- return(<p>Loading...</p>);
+ return(<p>Study Loading...</p>);
 }   
 
 export default Study;
