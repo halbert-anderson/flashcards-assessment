@@ -62,7 +62,8 @@ import {createCard, readDeck} from "../utils/api/index";
  
          try {
               // create a new deck
-              const newCard = await createCard(deckId,formData);//abortController.signal);
+              //const newCard = 
+              await createCard(deckId,formData);//abortController.signal);
            
               // reset form to initial state
              setFormData({ ...initialFormState });

@@ -6,6 +6,7 @@ The project focuses on state management and rendering using **React**, alongside
 ## Table of Contents
 
 - [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
 - [Features](#features)
 - [Learning Objectives](#learning-objectives)
 - [Project Setup](#project-setup)
@@ -22,12 +23,18 @@ The project focuses on state management and rendering using **React**, alongside
   - [CardList](#cardlist)
   - [NotEnoughCards](#notenoughcards)
   - [NavbarCards](#navbarcards)
-- [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 
 ## Project Overview
 
 Flashcard-o-matic is designed to facilitate online learning. Teachers can create, edit, and manage decks of flashcards for students to study. The app makes use of **React Router** for navigation and **React Hooks** for state management, ensuring a smooth and interactive user experience.
+
+## Technologies Used
+  + **React:** Core JavaScript framework used for building the application.
+  + **React Router:** For managing routes and nested routes.
+  + **React Hooks:** For state management and handling side effects.
+  + **Bootstrap 4:** For layout and basic styling.
+  + **JavaScript (ES6):** For logic and state management.
 
 ## Features
 
@@ -76,49 +83,66 @@ To set up this project on your local machine:
   + **Study Deck:** View flashcards one at a time, flipping them to see both sides. Navigate through the cards sequentially.
   + **Add/Edit Card:** Add or edit flashcards in a deck, providing text for both the front and back of the card.
   + **Edit Deck:** Edit the name and description of a deck.
+
 ## Components Overview
-### DeckDelete
-  + Allows users to delete a specific deck.
-  + Confirmation dialog prevents accidental deletions.
-  + Upon deletion, redirects to the home page.
+
+### DeckList
+  + Lists all available decks, each with options to view, study, or delete the deck.
+  + Fetches the list of decks using listDecks() from the API.
+![Home Page Screenshot](./screenshots/homePage.png)
+
 ### CreateDeck
   + A form that enables users to create new decks.
   + Handles form input for deck name and description using controlled components.
   + Redirects to the newly created deck’s page after submission.
-### Deck
-  + Displays a specific deck, including its name and description.
-  + Shows options to edit, study, or delete the deck, and to add new cards.
-  + Includes a **CardList** component to display all cards in the deck.
-### DeckList
-  + Lists all available decks, each with options to view, study, or delete the deck.
-  + Fetches the list of decks using listDecks() from the API.
-### AddCard
-  + A form that allows users to add new flashcards to a deck.
-  + Controlled inputs ensure that the form data is managed via useState().
-  + Redirects back to the deck’s page after the card is added.
-### EditCard
-  + A form that allows users to edit existing flashcards.
-  + Loads the current card's details using useEffect() and updates the card upon form submission.
+![Create Deck Screenshot](./screenshots/createDeck.png)
+
 ### EditDeck
   + A form that allows users to edit the name and description of an existing deck.
   + Uses controlled inputs and ensures that changes are only saved when submitted.
+![Edit Deck Screenshot](./screenshots/editDeck.png)
+
 ### Study
   + The main component for studying a deck of flashcards.
   + Displays one card at a time, allowing the user to flip between the front and back.
   + Automatically prompts the user to restart or exit when all cards in the deck have been studied.
+![Study Cards Screenshot](./screenshots/studyCards.png)
+
+### DeckDelete
+  + Allows users to delete a specific deck.
+  + Confirmation dialog prevents accidental deletions.
+  + Upon deletion, redirects to the home page.
+
+### Deck
+  + Displays a specific deck, including its name and description.
+  + Shows options to edit, study, or delete the deck, and to add new cards.
+  + Includes a **CardList** component to display all cards in the deck.
+
 ### CardList
   + Displays all the cards in a deck, with options to edit or delete each card.
   + Uses useState() to handle the list of cards and updates dynamically when a card is deleted.
+![View Cards Screenshot](./screenshots/viewCards.png)
+
+### AddCard
+  + A form that allows users to add new flashcards to a deck.
+  + Controlled inputs ensure that the form data is managed via useState().
+  + Redirects back to the deck’s page after the card is added.
+![Add Card Screenshot](./screenshots/addCard.png)
+
+### EditCard
+  + A form that allows users to edit existing flashcards.
+  + Loads the current card's details using useEffect() and updates the card upon form submission.
+![Edit Card Screenshot](./screenshots/editCard.png)
+
+
 ### NotEnoughCards
   + If a deck has fewer than 3 cards, this component will display a message and prompt the user to add more cards.
+
 ### NavbarCards
   + Displays a breadcrumb navigation for easier navigation between the home page, deck pages, and study pages.
-## Technologies Used
-  + **React:** Core JavaScript framework used for building the application.
-  + **React Router:** For managing routes and nested routes.
-  + **React Hooks:** For state management and handling side effects.
-  + **Bootstrap 4:** For layout and basic styling.
-  + **JavaScript (ES6):** For logic and state management.
+
+
+
 ## Contributing
 Contributions are welcome! If you have suggestions or improvements, feel free to submit a pull request or open an issue.
 
